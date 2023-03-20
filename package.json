@@ -1,0 +1,16 @@
+{
+  "name": "godxulivechatroom",
+  "version": "1.0.0",
+  "description": "这是一个在线聊天室项目",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cros": "^1.0.1",
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,45 @@
+<h5><!DOCTYPE html>
+<html lang="zh-CN>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GodxuChat 注册</title>
+    <link rel="stylesheet" href="CSS.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <br>
+    <div class="top">
+        <a href="../login/">GodxuChat 注册</a>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div class="box">
+        <div class="inputBox">
+            <input type="text" class="passwordBox" placeholder="用户名" onkeyup="userName(this.value)">
+        </div>
+        <div class="inputBox">
+            <input type="password" class="passwordBox" placeholder="密码" onkeyup="checkPassword(this.value)">
+            <span class="logoButton"></span>
+        </div>
+        <div class="checkBox">
+            <input type="password" class="passwordBox" placeholder="确认密码" onkeyup="recheckPassword(this.value)">
+            <span class="logoButton"></span>
+        </div>
+        <div class="validation">
+            <ul>
+                <li id="nameLength">用户名不能为空</li>
+                <li id="length">密码长度至少为6</li>
+                <li id="recheck">两次输入密码一致</li>
+            </ul>
+        </div>
+        <div class="btnbox">
+            <button class="btn" id="register">确认注册</button>
+        <button class="btn">返回登录</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

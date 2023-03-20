@@ -1,0 +1,197 @@
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    box-sizing: border-box;
+
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: cadetblue;
+    height:100%;
+}
+
+.top {
+    margin: auto;
+    background-color: bisque;
+    padding: 10px;
+    font-size: 24px;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+    
+}
+
+.top a {   
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: skyblue;
+    padding: 8px;   
+    transition: 0.5s;
+}
+
+.top a:after {
+    position: absolute;
+    right: -15px;
+    color: skyblue;
+    content: '»';
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.top:hover a {
+    color: royalblue;
+    padding-right: 30px;
+}
+
+.top:hover a:after {
+    color: royalblue;
+    opacity: 1;
+    right: 0;
+}
+
+.box {
+    position: relative;
+    width: 300px;
+}
+
+.box .inputBox, .box .checkBox {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    background-color: whitesmoke;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    margin-bottom: 12px;
+}
+
+.box .passwordBox {
+    font-size: 16px;
+    background-color: whitesmoke;
+    flex: 1;
+    outline: none;
+    border: none;
+    padding: 5px;
+}
+
+.box .logoButton {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box .logoButton::before {
+    content: "\f06e";
+    font-size: 16px;
+    font-weight: lighter;
+    font-family: fontAwesome;
+}
+
+.box .hide::before {
+    content: "\f070";
+    font-family: fontAwesome;
+}
+
+.validation {
+    background-color: #619396;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+
+.validation ul {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.validation ul li {
+    position: relative;
+    font-size: 16px;
+    font-weight: lighter;
+    list-style: none;
+    color: rgb(250, 235, 215);
+    transition: 0.3s;
+}
+
+.validation ul li.valid {
+    color: rgb(0, 255, 0);
+}
+
+.validation ul li::before {
+    content: "\f192";
+    font-family: fontAwesome;
+    width: 22px;
+    height: 10px;
+    display: inline-flex;
+}
+
+.validation ul li.valid::before {
+    content: "\f00c";
+    font-family: fontAwesome;
+    transition: 0.1s;
+}
+
+.btnbox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {   
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    background-color: bisque;
+    width: 120px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: skyblue;
+    padding: 8px;   
+    transition: 0.5s;
+}
+
+.btn:after {
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    color: skyblue;
+    content: '»';
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.btn:hover {
+    color: royalblue;
+    padding-right: 15px;
+}
+
+.btn:hover:after {
+    color: royalblue;
+    opacity: 1;
+    right: 14px;
+}
+
+
+/*用于消除edge密码框的默认小眼睛*/
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+input[type="password"]::-ms-clear {
+    display: none;
+}
+input[type="password"]::-o-clear {
+    display: none;
+}

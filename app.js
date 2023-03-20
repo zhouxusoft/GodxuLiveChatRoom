@@ -39,6 +39,7 @@ app.get('', function(req, res) {
     res.sendFile(__dirname + '/public/login/index.html')
 })
 //静态资源托管
+app.use(express.static(__dirname + "/public/"))
 app.use(express.static(__dirname + "/public/login/"))
 app.use(express.static(__dirname + "/public/register/"))
 

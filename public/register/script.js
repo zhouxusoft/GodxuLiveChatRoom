@@ -55,3 +55,33 @@ function recheckPassword(data) {
         recheckCase.classList.remove('valid')
     }
 }
+
+const registerForm = document.getElementById('registerForm')
+
+registerForm.addEventListener('submit', function (e) {
+    e.preventDefault()
+    let xhr = new XMLHttpRequest()
+    let data = {
+        username: this.username.value,
+        password: this.password.value,
+    }
+    let formData = ''
+    for (let key in data) {
+        formData += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
+    }
+    formData = formData.slice(0, -1)
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let resData = JSON.parse(this.response)
+            if (resData.status == 0) {
+                window.location = '../login/'
+                alert(resData.message)
+            } else {
+                alert(resData.message)
+            }
+        } 
+    }
+    xhr.open('POST', 'http://127.0.0.1:3007/api/register', true)
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    xhr.send(formData)
+})

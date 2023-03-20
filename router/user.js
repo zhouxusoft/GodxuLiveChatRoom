@@ -1,6 +1,9 @@
 //导入express模块
 const express = require('express')
 
+//导入表单验证模块
+const { body } = require('express-validator');
+
 //创建路由对象
 const router = express.Router()
 
@@ -8,7 +11,10 @@ const router = express.Router()
 const user_handle = require('../router_handle/user')
 
 //注册
-router.post('/reguser', user_handle.regUser)
+router.post('/register',
+    body('username').notEmpty(),
+    body('password').notEmpty(),
+    user_handle.regUser)
 
 //登录
 router.post('/login', user_handle.login)

@@ -149,6 +149,20 @@ body {
     justify-content: space-between;
 }
 
+.default {
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    background-color: bisque;
+    width: 120px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: skyblue;
+    padding: 8px;   
+    transition: 0.5s;
+}
+
 .btn {   
     border-radius: 8px;
     font-size: 16px;

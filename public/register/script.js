@@ -16,20 +16,41 @@ for (let i = 0; i < logoButtons.length; i++) {
 let userLengthCase = document.getElementById('nameLength')
 let lengthCase = document.getElementById('length')
 let recheckCase = document.getElementById('recheck')
+let btn = document.getElementById('register')
 let pwd;
 let username;
+let userNameOK, checkPasswordOK, recheckPasswordOK = 0;
+
+function inputOK(userNameOK, checkPasswordOK, recheckPasswordOK) {
+    let a = userNameOK;
+    let b = checkPasswordOK;
+    let c = recheckPasswordOK;
+    if (a == 1 && b == 1 && c == 1) {
+        btn.disabled = false;
+        btn.classList.remove('default')
+        btn.classList.add('btn')
+    } else {
+        btn.disabled = true;
+        btn.classList.remove('btn')
+        btn.classList.add('default')
+    }
+}
 
 function userName(data) {
     username = data
 
     const length = new RegExp('(?=.{1,})')
-    
-    if(length.test(data)) {
+
+    if (length.test(data)) {
         userLengthCase.classList.add('valid')
+        userNameOK = 1;
     }
     else {
         userLengthCase.classList.remove('valid')
+        userNameOK = 0;
     }
+
+    inputOK(userNameOK, checkPasswordOK, recheckPasswordOK)
 }
 
 function checkPassword(data) {
@@ -37,23 +58,31 @@ function checkPassword(data) {
 
     const length = new RegExp('(?=.{6,})')
 
-    if(length.test(data)) {
+    if (length.test(data)) {
         lengthCase.classList.add('valid')
+        checkPasswordOK = 1;
     }
     else {
         lengthCase.classList.remove('valid')
+        checkPasswordOK = 0;
     }
-} 
+
+    inputOK(userNameOK, checkPasswordOK, recheckPasswordOK)
+}
 function recheckPassword(data) {
     if (data === '') {
         recheckCase.classList.remove('valid')
     }
-    else if(data === pwd) {
+    else if (data === pwd) {
         recheckCase.classList.add('valid')
+        recheckPasswordOK = 1;
     }
     else {
         recheckCase.classList.remove('valid')
+        recheckPasswordOK = 0;
     }
+
+    inputOK(userNameOK, checkPasswordOK, recheckPasswordOK)
 }
 
 const registerForm = document.getElementById('registerForm')
@@ -79,7 +108,7 @@ registerForm.addEventListener('submit', function (e) {
             } else {
                 alert(resData.message)
             }
-        } 
+        }
     }
     xhr.open('POST', 'http://127.0.0.1:3007/api/register', true)
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')

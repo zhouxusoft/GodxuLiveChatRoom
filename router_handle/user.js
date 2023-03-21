@@ -48,6 +48,11 @@ exports.regUser = (req, res) => {
 exports.login = (req, res) => {
     //请求表单数据
     const userinfo = req.body
+
+    //判断输入是否为空
+    if (!userinfo.username || !userinfo.password) {
+        return res.cc('用户名或密码不能为空')
+    }
     //定义sql语句
     const sql = 'select * from usertable where username = ?'
     //执行SQL语句，查询用户数据
@@ -65,7 +70,7 @@ exports.login = (req, res) => {
         if (!compareResult) {
             return res.cc('密码错误')
         }
-        const user = { ...results[0], password: '', user_pic: '' }
+        const user = { ...results[0], password: '' }
         //对用户信息进行加密，生成一个token
         const tokenStr = jwt.sign(user, config.jwtSecretKey, {
             expiresIn: '10h'

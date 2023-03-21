@@ -40,6 +40,7 @@ app.get('', function(req, res) {
 })
 //静态资源托管
 app.use(express.static(__dirname + "/public/"))
+app.use(express.static(__dirname + "/public/main/"))
 app.use(express.static(__dirname + "/public/login/"))
 app.use(express.static(__dirname + "/public/register/"))
 

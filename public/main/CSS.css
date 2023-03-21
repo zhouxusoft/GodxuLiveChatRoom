@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    box-sizing: border-box;
+
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: cadetblue;
+    height:100%;
+}
+
+.top {
+    margin: auto;
+    background-color: bisque;
+    padding: 10px;
+    font-size: 24px;
+    width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    
+}
+
+.top a {   
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: skyblue;
+    padding: 8px;   
+    transition: 0.5s;
+}
+
+.top a:after {
+    position: absolute;
+    right: -15px;
+    color: skyblue;
+    content: '»';
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.top:hover a {
+    color: royalblue;
+    padding-right: 30px;
+}
+
+.top:hover a:after {
+    color: royalblue;
+    opacity: 1;
+    right: 0;
+}
+
+.box {
+    position: relative;
+    width: 300px;
+}
+
+hr {
+    margin: 8px;
+}
+
+.output {
+    width: 400px;
+    height: 500px;
+    background-color: rgba(240, 240 , 240, 0.6);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+
+.btnbox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.default {
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    background-color: bisque;
+    width: 120px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: skyblue;
+    padding: 8px;   
+    transition: 0.5s;
+}
+
+.box {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.input {
+    font-size: 16px;
+    background-color: whitesmoke;
+    outline: none;
+    border: none;
+    margin: 10px 0;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    width: 310px;
+}
+
+.btn {   
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    background-color: bisque;
+    width: 80px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: skyblue;
+    padding: 8px;   
+    transition: 0.5s;
+    margin: 10px 0;
+}
+
+.btn:after {
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    color: skyblue;
+    content: '»';
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.btn:hover {
+    color: royalblue;
+    padding-right: 15px;
+}
+
+.btn:hover:after {
+    color: royalblue;
+    opacity: 1;
+    right: 14px;
+}
+
+
+/*用于消除edge密码框的默认小眼睛*/
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+input[type="password"]::-ms-clear {
+    display: none;
+}
+input[type="password"]::-o-clear {
+    display: none;
+}

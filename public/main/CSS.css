@@ -17,41 +17,13 @@ body {
 .top {
     margin: auto;
     background-color: bisque;
-    padding: 10px;
+    padding: 16px;
     font-size: 24px;
-    width: 400px;
-    border-radius: 10px;
-    text-align: center;
-    
-}
-
-.top a {   
-    display: inline-block;
-    position: relative;
-    text-decoration: none;
-    color: skyblue;
-    padding: 8px;   
-    transition: 0.5s;
-}
-
-.top a:after {
-    position: absolute;
-    right: -15px;
-    color: skyblue;
-    content: '»';
-    opacity: 0;
-    transition: 0.5s;
-}
-
-.top:hover a {
+    width: 300px;
+    border-radius: 6px;
+    text-align: center;  
     color: royalblue;
-    padding-right: 30px;
-}
-
-.top:hover a:after {
-    color: royalblue;
-    opacity: 1;
-    right: 0;
+    letter-spacing: 3px;
 }
 
 .box {
@@ -60,26 +32,79 @@ body {
 }
 
 hr {
-    margin: 8px;
+    margin: 6px;
 }
 
 .output {
-    width: 400px;
+    width: 300px;
     height: 500px;
     background-color: rgba(240, 240 , 240, 0.6);
-    border-radius: 10px;
+    border-radius: 6px;
     padding: 10px;
+    overflow: auto;
+    font-weight: lighter;
 }
 
-.username {
-    color: whitesmoke;
-    font-size: 16px;
+.output::-webkit-scrollbar {
+    display: none;
 }
 
-.message {
+.joinin {
+    color: rgb(255, 235, 210);
+    font-size: 13px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.otheruser {
+    color: white;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.selfuser {
+    color: white;
+    font-size: 14px;
+    margin: 5px 0;
+    text-align: right;
+    display: block;
+}
+
+.clear {
+    clear: both;
+}
+
+.selfmessage {
+    float: right;
+    user-select: text;
     color: palevioletred;
-    margin-left: 30px;
-    font-size: 16px;
+    margin: 0 20px;
+    font-size: 13px;
+    background-color: rgba(240, 240 , 240, 0.5);
+    width: auto;
+    padding: 2px 5px;
+    border-radius: 5px;
+    word-break: normal;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    width: fit-content;
+}
+
+.othermessage {
+    user-select: text;
+    color: palevioletred;
+    margin: 0 20px;
+    font-size: 13px;
+    background-color: rgba(240, 240 , 240, 0.5);
+    width: auto;
+    padding: 2px 5px;
+    border-radius: 5px;
+    word-break: normal;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    width: fit-content;
 }
 
 .btnbox {
@@ -102,34 +127,38 @@ hr {
 }
 
 .box {
-    width: 400px;
+    width: 300px;
     display: flex;
     justify-content: space-between;
 }
 
 .input {
-    font-size: 16px;
+    font-size: 14px;
     background-color: whitesmoke;
+    color: #666666;
     outline: none;
     border: none;
     margin: 10px 0;
-    padding: 5px;
-    border-radius: 8px;
+    padding: 3px;
+    border-radius: 6px;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
-    width: 310px;
+    width: 220px;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
 }
 
 .btn {   
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 6px;
+    font-size: 14px;
     border: none;
     background-color: bisque;
-    width: 80px;
+    width: 70px;
     display: inline-block;
     position: relative;
     text-decoration: none;
     color: skyblue;
-    padding: 8px;   
+    padding: 4px;   
     transition: 0.5s;
     margin: 10px 0;
 }

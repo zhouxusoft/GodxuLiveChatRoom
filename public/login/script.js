@@ -31,7 +31,10 @@ loginForm.addEventListener('submit', function (e) {
         if (this.readyState == 4 && this.status == 200) {
             let resData = JSON.parse(this.response)
             if (resData.status == 0) {
-                window.location = 'https://godxu.top'
+                window.location = '../main/'
+                localStorage.setItem("token", JSON.stringify(resData.token))
+                let token = localStorage.getItem("token")
+                console.log(token)
             } else {
                 alert(resData.message)
             }

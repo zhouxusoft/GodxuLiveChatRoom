@@ -1,6 +1,13 @@
 // 创建一个WebSocket对象，连接到ws://localhost:3008
 let socket = new WebSocket("ws://localhost:3008");
 
+//拿到登录的token
+let token = JSON.parse(localStorage.getItem("token"))
+//判断值是否为空
+if (!token) {
+    window.location = '../login/'
+}
+
 // 当连接打开时，发送一条消息给服务器
 socket.onopen = function(e) {
     socket.send("已连接");
@@ -10,7 +17,8 @@ socket.onopen = function(e) {
 socket.onmessage = function(event) {
     console.log(event.data)
     let output = document.getElementsByClassName("output");
-    output[0].innerHTML += `<p>${event.data}</p>`;
+    output[0].innerHTML += `<p class="username">${token.username}</p>`;
+    output[0].innerHTML += `<p class="message">${event.data}</p>`;
 };
 
 // 当连接关闭时，显示一个提示信息

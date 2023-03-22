@@ -71,7 +71,16 @@ hr {
     padding: 10px;
 }
 
+.username {
+    color: whitesmoke;
+    font-size: 16px;
+}
 
+.message {
+    color: palevioletred;
+    margin-left: 30px;
+    font-size: 16px;
+}
 
 .btnbox {
     display: flex;

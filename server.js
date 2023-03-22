@@ -14,6 +14,4 @@ wss.on('connection', function connection(ws) {
     ws.send(message.toString());
   });
 
-  // 向客户端发送一条欢迎消息
-  ws.send('连接成功');
 });

@@ -6,9 +6,6 @@ const { validationResult } = require('express-validator')
 //导入数据库操作模块
 const db = require('../database/index')
 
-//导入生成token的包
-const jwt = require('jsonwebtoken')
-
 //导入配置文件
 const config = require('../config')
 
@@ -71,15 +68,11 @@ exports.login = (req, res) => {
             return res.cc('密码错误')
         }
         const user = { ...results[0], password: '' }
-        //对用户信息进行加密，生成一个token
-        const tokenStr = jwt.sign(user, config.jwtSecretKey, {
-            expiresIn: '10h'
-        })
         res.send({
             status: 0,
             message: '登陆成功',
             //为方便用户端直接使用token，在服务器端直接拼接Bearer前缀
-            token: 'Bearer' + tokenStr
+            token: user
         })
     })
 }

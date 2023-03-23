@@ -16,6 +16,7 @@ for (let i = 0; i < logoButtons.length; i++) {
 const loginForm = document.getElementById('loginForm')
 
 loginForm.addEventListener('submit', function (e) {
+
     e.preventDefault()
     let xhr = new XMLHttpRequest()
     let data = {
@@ -31,10 +32,8 @@ loginForm.addEventListener('submit', function (e) {
         if (this.readyState == 4 && this.status == 200) {
             let resData = JSON.parse(this.response)
             if (resData.status == 0) {
-                window.location = 'http://127.0.0.1:3008/'
                 localStorage.setItem("token", JSON.stringify(resData.token))
-                let token = localStorage.getItem("token")
-                console.log(token)
+                window.location = 'http://127.0.0.1:3008/'
             } else {
                 alert(resData.message)
             }

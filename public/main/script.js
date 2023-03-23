@@ -1,15 +1,15 @@
 //拿到登录的token
-let token = JSON.parse(localStorage.getItem("token"))
-//console.log(token)
 //判断值是否为空
+let token = JSON.parse(localStorage.getItem("token"))
+
+//0.5s后再进行判断 为了防止页面刷新过快而出现token为空的误判
 if (!token) {
     window.location = '../login/'
 }
 
 const socket = io('http://127.0.0.1:3008', {
-    reconnection: false,
-    reconnectionDelay: 10000,
-    query: {id: token.nickname}});
+    query: { id: token.nickname }
+});
 
 //获取到输出框，用于修改内容
 let output = document.getElementsByClassName("output");
@@ -25,7 +25,7 @@ socket.on('connect', () => {
 socket.on('login', (login) => {
     //console.log("登录", login)
     const elements = document.querySelectorAll('.joinin');
-    elements.forEach(function(element) {
+    elements.forEach(function (element) {
         element.remove();
     });
     header[0].innerHTML += `<span class="joinin">${login} 已连接</span>`;
@@ -35,7 +35,7 @@ socket.on('login', (login) => {
 socket.on('disc', (disconnect) => {
     //console.log("断连", disconnect)
     const elements = document.querySelectorAll('.joinin');
-    elements.forEach(function(element) {
+    elements.forEach(function (element) {
         element.remove();
     });
     header[0].innerHTML += `<span class="joinin">${disconnect} 已断开</span>`;
@@ -46,7 +46,7 @@ socket.on('disc', (disconnect) => {
 socket.on('count', (connCount) => {
     //console.log(connCount)
     const elements = document.querySelectorAll('.count');
-    elements.forEach(function(element) {
+    elements.forEach(function (element) {
         element.remove();
     });
     header[0].innerHTML += `<span class="count">在线人数：${connCount}</span>`;
@@ -71,7 +71,7 @@ socket.on('message', (message) => {
 
 sendForm.addEventListener('submit', function (e) {
     e.preventDefault()
-    let toSend = {nickname: token.nickname, value: this.tosend.value}
+    let toSend = { nickname: token.nickname, value: this.tosend.value }
     if (toSend.value) {
         socket.emit('message', JSON.stringify(toSend))
     }

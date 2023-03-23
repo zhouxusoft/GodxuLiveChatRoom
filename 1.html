@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>等待页面加载</title>
+  <style>
+    #loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      background-color: rgba(255, 255, 255, 0.6);
+      padding: 10px;
+      border-radius: 5px;
+    }
+    
+    #loading-text {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    #loading-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 3px solid #ccc;
+      border-top-color: #2e93e6;
+      animation: spin 1s infinite linear;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div id="loading-text">请稍候，页面正在加载...</div>
+    <div id="loading-icon"></div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      // 显示 loading 状态
+      var loading = document.getElementById('loading');
+      loading.style.display = 'block';
+
+      // 等待 5 秒钟
+      setTimeout(function() {
+        // 隐藏 loading 状态
+        loading.style.display = 'none';
+
+        // 执行其他操作
+        alert('页面已经加载完成！');
+      }, 5000);
+    };
+  </script>
+</body>
+</html>

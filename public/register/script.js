@@ -39,7 +39,7 @@ function inputOK(userNameOK, checkPasswordOK, recheckPasswordOK) {
 function userName(data) {
     username = data
 
-    const length = new RegExp('(?=.{1,})')
+    const length = new RegExp('(^.{1,12}$)')
 
     if (length.test(data)) {
         userLengthCase.classList.add('valid')

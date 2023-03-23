@@ -19,7 +19,7 @@
     <div class="box">
         <form action="" id="registerForm">
             <div class="inputBox">
-                <input type="text" class="passwordBox" name="username" placeholder="用户名" onkeyup="userName(this.value)">
+                <input type="text" class="nameBox" name="username" placeholder="用户名" autocomplete="off" onkeyup="userName(this.value)">
             </div>
             <div class="inputBox">
                 <input type="password" class="passwordBox" name="password" placeholder="密码" onkeyup="checkPassword(this.value)">
@@ -31,7 +31,7 @@
             </div>
             <div class="validation">
                 <ul>
-                    <li id="nameLength">用户名不能为空</li>
+                    <li id="nameLength">用户名不能过短或过长</li>
                     <li id="length">密码长度至少为6</li>
                     <li id="recheck">两次输入密码一致</li>
                 </ul>

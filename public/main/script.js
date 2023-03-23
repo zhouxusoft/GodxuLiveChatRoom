@@ -6,10 +6,14 @@ if (!token) {
     window.location = '../login/'
 }
 
-const socket = io('http://127.0.0.1:3008', {query: {id: token.nickname}});
+const socket = io('http://127.0.0.1:3008', {
+    reconnection: false,
+    reconnectionDelay: 10000,
+    query: {id: token.nickname}});
 
 //获取到输出框，用于修改内容
 let output = document.getElementsByClassName("output");
+let header = document.getElementsByClassName("header");
 
 //客户端连接成功后触发
 socket.on('connect', () => {
@@ -19,21 +23,40 @@ socket.on('connect', () => {
 
 //客户端登陆时触发
 socket.on('login', (login) => {
-    console.log("登录", login)
-    output[0].innerHTML += `<p class="joinin">${login} 已连接</p>`;
-    output[0].scrollTop = output[0].scrollHeight;
+    //console.log("登录", login)
+    const elements = document.querySelectorAll('.joinin');
+    elements.forEach(function(element) {
+        element.remove();
+    });
+    header[0].innerHTML += `<span class="joinin">${login} 已连接</span>`;
+    header[0].scrollTop = header[0].scrollHeight;
 });
 
 socket.on('disc', (disconnect) => {
-    console.log("断连", disconnect)
-    output[0].innerHTML += `<p class="joinin">${disconnect} 已断开</p>`;
-    output[0].scrollTop = output[0].scrollHeight;
+    //console.log("断连", disconnect)
+    const elements = document.querySelectorAll('.joinin');
+    elements.forEach(function(element) {
+        element.remove();
+    });
+    header[0].innerHTML += `<span class="joinin">${disconnect} 已断开</span>`;
+    header[0].scrollTop = header[0].scrollHeight;
+});
+
+//人数变化
+socket.on('count', (connCount) => {
+    //console.log(connCount)
+    const elements = document.querySelectorAll('.count');
+    elements.forEach(function(element) {
+        element.remove();
+    });
+    header[0].innerHTML += `<span class="count">在线人数：${connCount}</span>`;
+    header[0].scrollTop = header[0].scrollHeight;
 });
 
 //发送消息时触发
 socket.on('message', (message) => {
     //将字符串转回对象
-    console.log(message)
+    //console.log(message)
     let data = JSON.parse(message)
     if (data.nickname == token.nickname) {
         output[0].innerHTML += `<div class="selfuser">${data.nickname}</div>
@@ -52,7 +75,7 @@ sendForm.addEventListener('submit', function (e) {
     if (toSend.value) {
         socket.emit('message', JSON.stringify(toSend))
     }
-    console.log(toSend.nickname)
+    //console.log(toSend.nickname)
     //清空input
     document.getElementsByClassName("input")[0].value = "";
 })

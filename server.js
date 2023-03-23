@@ -1,19 +1,37 @@
-// 引入ws模块
-const WebSocket = require('ws');
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
-// 创建一个WebSocket服务器实例，监听3000端口
-const wss = new WebSocket.Server({ port: 3008 });
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/main/');
+});
+//静态资源托管
+app.use(express.static(__dirname + "/public/"));
+app.use(express.static(__dirname + "/public/main/"));
 
-let onlineCount = 0;
 
-// 当有客户端连接时，触发connection事件
-wss.on('connection', function connection(ws) {
-  // 当收到客户端消息时，触发message事件
-  ws.on('message', function incoming(message) {
-    // 把消息原样返回给客户端
-    wss.emit("B",message.toString())
-    ws.send(message.toString());
-    console.log(message.toString());
-  });
+io.on('connection', (socket) => {
+    socket.on('message', (message) => {
+        console.log(message)
+        io.emit('message', message)
+    });
+    socket.on('login', (login) => {
+        console.log(login)
+        io.emit('login', login)
+    });
+    socket.on('disconnect', () => {
+        console.log(123)
+        const customId = socket.handshake.query.id;
+        socket.id = customId;
+        io.emit('disc', socket.id)
+    });
+});
 
+
+//启动服务器
+server.listen(3008, () => {
+    console.log("127.0.0.1:3008")
 });

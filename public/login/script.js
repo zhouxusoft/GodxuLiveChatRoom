@@ -31,7 +31,7 @@ loginForm.addEventListener('submit', function (e) {
         if (this.readyState == 4 && this.status == 200) {
             let resData = JSON.parse(this.response)
             if (resData.status == 0) {
-                window.location = '../main/'
+                window.location = 'http://127.0.0.1:3008/'
                 localStorage.setItem("token", JSON.stringify(resData.token))
                 let token = localStorage.getItem("token")
                 console.log(token)

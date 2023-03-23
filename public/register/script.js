@@ -36,12 +36,17 @@ function inputOK(userNameOK, checkPasswordOK, recheckPasswordOK) {
     }
 }
 
+//用于检测输入是否有空白符
+function hasWhiteSpace(str) {
+    return /\s/g.test(str);
+}
+
 function userName(data) {
     username = data
-
+    //用于判断用户名长度是否在1-12字符之间
     const length = new RegExp('(^.{1,12}$)')
 
-    if (length.test(data)) {
+    if (length.test(data) && !hasWhiteSpace(data)) {
         userLengthCase.classList.add('valid')
         userNameOK = 1;
     }
@@ -58,7 +63,7 @@ function checkPassword(data) {
 
     const length = new RegExp('(?=.{6,})')
 
-    if (length.test(data)) {
+    if (length.test(data) && !hasWhiteSpace(data)) {
         lengthCase.classList.add('valid')
         checkPasswordOK = 1;
     }

@@ -24,8 +24,8 @@ socket.onmessage = function(event) {
     let data = JSON.parse(event.data)
     if (data.nickname == token.nickname) {
         output[0].innerHTML += `<div class="selfuser">${data.nickname}</div>
-                                <div class="selfmessage">${data.value}</div>`;
-        output[0].innerHTML += `<div class="clear"></div>`;
+                                <div class="selfmessage">${data.value}</div>
+                                <div class="clear"></div>`;
     } else {
         output[0].innerHTML += `<div class="otheruser">${data.nickname}</div>
                                 <div class="othermessage">${data.value}</div>`;

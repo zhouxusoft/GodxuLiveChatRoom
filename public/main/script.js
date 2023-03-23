@@ -23,12 +23,12 @@ socket.onmessage = function(event) {
     console.log(event.data)
     let data = JSON.parse(event.data)
     if (data.nickname == token.nickname) {
-        output[0].innerHTML += `<div class="selfuser">${data.nickname}</div>`;
-        output[0].innerHTML += `<div class="selfmessage">${data.value}</div>`;
+        output[0].innerHTML += `<div class="selfuser">${data.nickname}</div>
+                                <div class="selfmessage">${data.value}</div>`;
         output[0].innerHTML += `<div class="clear"></div>`;
     } else {
-        output[0].innerHTML += `<div class="otheruser">${data.nickname}</div>`;
-        output[0].innerHTML += `<div class="othermessage">${data.value}</div>`;
+        output[0].innerHTML += `<div class="otheruser">${data.nickname}</div>
+                                <div class="othermessage">${data.value}</div>`;
     }
     output[0].scrollTop = output[0].scrollHeight;
 };

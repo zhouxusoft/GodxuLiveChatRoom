@@ -20,23 +20,38 @@ let bottombox = document.getElementsByClassName("box");
 //获取发送按钮
 let inputElement = document.getElementsByClassName("input");
 let btn = document.getElementsByClassName("btn")
+let btndown = document.getElementsByClassName("btndown")
 
 //给输入框添加监听事件，判断内容
 //input中有内容 箭头向上 代表发送
 //无内容 箭头向下 代表打开下拉菜单
+
 inputElement[0].addEventListener('input', (event) => {
     let inputValue = event.target.value;
     if (inputValue) {
         btn[0].classList.remove("btndown")
         btn[0].classList.add("btnup")
-        output[0].style.height = "400px"
-        bottombox[0].style.height = "94px"
+        if (output[0].style.height == "400px") {
+            output[0].style.height = "450px"
+            bottombox[0].style.height = "44px"
+        }
     } else {
         btn[0].classList.add("btndown")
         btn[0].classList.remove("btnup")
-        output[0].style.height = "450px"
-        bottombox[0].style.height = "44px"
     }
+});
+
+btndown[0].addEventListener("click", function () {
+    //点击事件先判断是否有值，若没有，则打开下拉菜单
+    if (!inputElement[0].value) {
+        if (output[0].style.height == "400px") {
+            output[0].style.height = "450px"
+            bottombox[0].style.height = "44px"
+        } else {
+            output[0].style.height = "400px"
+            bottombox[0].style.height = "94px"
+        }
+    }  
 });
 
 //客户端连接成功后触发
@@ -102,4 +117,6 @@ sendForm.addEventListener('submit', function (e) {
     //console.log(toSend.nickname)
     //清空input
     inputElement[0].value = "";
+    btn[0].classList.add("btndown")
+    btn[0].classList.remove("btnup")
 })

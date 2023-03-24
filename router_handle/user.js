@@ -6,9 +6,6 @@ const { validationResult } = require('express-validator')
 //导入数据库操作模块
 const db = require('../database/index')
 
-//导入配置文件
-const config = require('../config')
-
 //注册新用户
 exports.regUser = (req, res) => {
     //接收表单数据

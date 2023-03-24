@@ -13,8 +13,6 @@ app.get('/', (req, res) => {
 app.use(express.static(__dirname + "/public/"));
 app.use(express.static(__dirname + "/public/main/"));
 
-let connCount = 0;
-
 io.on('connection', (socket) => {
     socket.on('message', (message) => {
         //console.log(message)
@@ -23,21 +21,19 @@ io.on('connection', (socket) => {
     socket.on('login', (login) => {
         //console.log(login)
         io.emit('login', login)
-        connCount++;
-        io.emit('count', connCount)
+        io.emit('count', io.engine.clientsCount)
     });
     socket.on('disconnect', () => {
         //console.log(123)
         const customId = socket.handshake.query.id;
         socket.id = customId;
         io.emit('disc', socket.id)
-        connCount--;
-        io.emit('count', connCount)
+        io.emit('count', io.engine.clientsCount)
     });
 });
 
 
 //启动服务器
-server.listen(3008, () => {
-    console.log("127.0.0.1:3008")
+server.listen(30018, () => {
+    console.log("localhost:30018")
 });

@@ -7,9 +7,6 @@ const cors = require('cors')
 //导入用户路由模块
 const userRouter = require('./router/user')
 
-//导入配置文件
-const config = require('./config')
-
 //解析token的中间件
 const expressJWT = require('express-jwt')
 
@@ -44,6 +41,6 @@ app.use(express.static(__dirname + "/public/login/"))
 app.use(express.static(__dirname + "/public/register/"))
 
 //调用app.listen方法，指定端口号并启动web服务器
-app.listen(3007, function() {
-    console.log('api sever running at http://127.0.0.1:3007')
+app.listen(30017, function() {
+    console.log('localhost:30017')
 })

@@ -32,14 +32,15 @@ loginForm.addEventListener('submit', function (e) {
         if (this.readyState == 4 && this.status == 200) {
             let resData = JSON.parse(this.response)
             if (resData.status == 0) {
+                localStorage.clear()
                 localStorage.setItem("token", JSON.stringify(resData.token))
-                window.location = 'http://127.0.0.1:3008/'
+                window.location = 'http://localhost:30018/'
             } else {
                 alert(resData.message)
             }
         } 
     }
-    xhr.open('POST', 'http://127.0.0.1:3007/api/login', true)
+    xhr.open('POST', 'http://localhost:30017/api/login', true)
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
     xhr.send(formData)
 })

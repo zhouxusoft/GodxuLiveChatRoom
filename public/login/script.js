@@ -40,7 +40,7 @@ loginForm.addEventListener('submit', function (e) {
             }
         } 
     }
-    xhr.open('POST', 'http://localhost:30017/api/login', true)
+    xhr.open('POST', '/api/login', true)
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
     xhr.send(formData)
 })

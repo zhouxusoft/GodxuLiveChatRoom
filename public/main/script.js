@@ -7,7 +7,7 @@ if (!token) {
     window.location = '../login/'
 }
 
-const socket = io('http://localhost:30018', {
+const socket = io('http://127.0.0.1:30018', {
     query: { id: token.nickname }
 });
 

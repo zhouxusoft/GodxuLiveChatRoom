@@ -124,7 +124,7 @@ sendForm.addEventListener('submit', function (e) {
 let pop = document.getElementsByClassName("pop")[0];
 let overlay = document.getElementsByClassName("overlay")[0];
 let exit = document.getElementById("exit");
-let changename = document.getElementById("changename");
+let changeinfo = document.getElementById("changeinfo");
 let sendfile = document.getElementById("sendfile");
 let sendimg = document.getElementById("sendimg");
 let changeroom = document.getElementById("changeroom");
@@ -179,7 +179,7 @@ exit.addEventListener("click", function () {
 });
 
 //修改昵称点击事件
-changename.addEventListener("click", function () {
+changeinfo.addEventListener("click", function () {
     showPop()
 });
 

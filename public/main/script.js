@@ -193,11 +193,20 @@ changeinfo.addEventListener("click", function () {
                         <input class="changeinfoinput" placeholder="新密码">
                         <div class="makesurechange" type="submit">确认修改</div>
                       </form>`;
+
+    //用于检测输入是否有空白符
+    function hasWhiteSpace(str) {
+        return /\s/g.test(str);
+    }
+
     const changenameForm = document.getElementById("changenameForm")
     changenameForm.addEventListener("submit", function (e) {
         e.preventDefault()
         if (this.nickname.value) {
-            let xhr = new XMLHttpRequest()
+            //用于判断用户名长度是否在1-12字符之间
+            const length = new RegExp('(^.{1,12}$)')
+            if (length.test(this.nickname.value) && !hasWhiteSpace(this.nickname.value)) {
+                let xhr = new XMLHttpRequest()
             let data = {
                 id: token.id,
                 nickname: this.nickname.value
@@ -230,6 +239,9 @@ changeinfo.addEventListener("click", function () {
             xhr.open('POST', 'http://localhost:30017/api/changeNickname', true)
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
             xhr.send(formData)
+            } else {
+                alert("昵称不合法")
+            } 
         }
     })
 

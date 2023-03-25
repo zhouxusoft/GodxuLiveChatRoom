@@ -181,14 +181,45 @@ exit.addEventListener("click", function () {
 //修改信息点击事件
 changeinfo.addEventListener("click", function () {
     showPop()
-    pop.innerHTML += `<div class="changeinfo">修改昵称</div>
-                      <input class="changeinfoinput" placeholder="${token.nickname}">
-                      <div class="makesurechange">确认修改</div>
-                      <div class="clear"></div>
-                      <div class="changeinfo">修改密码</div>
-                      <input class="changeinfoinput" placeholder="原密码">
-                      <input class="changeinfoinput" placeholder="新密码">
-                      <div class="makesurechange">确认修改</div>`;
+    pop.innerHTML += `<form action="" id="changenameForm">
+                        <div class="changeinfo">修改昵称</div>
+                        <input class="changeinfoinput" placeholder="${token.nickname}" name="nickname">
+                        <div class="makesurechange" type="submit">确认修改</div>
+                        <div class="clear"></div>
+                      </form>
+                      <form action="" id="changepasswordForm">
+                        <div class="changeinfo">修改密码</div>
+                        <input class="changeinfoinput" placeholder="原密码">
+                        <input class="changeinfoinput" placeholder="新密码">
+                        <div class="makesurechange" type="submit">确认修改</div>
+                      </form>`;
+    const changenameForm = document.getElementById("changenameForm")
+    changenameForm.addEventListener("submit", function (e) {
+        e.preventDefault()
+        let xhr = new XMLHttpRequest()
+        let data = {
+            id: token.id,
+            nickname: this.nickname.value
+        }
+        let formData = ''
+        for (let key in data) {
+            formData += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
+        }
+        formData = formData.slice(0, -1)
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let resData = JSON.parse(this.response)
+                if (resData.status == 0) {
+
+                } else {
+                    alert(resData.message)
+                }
+            } 
+        }
+        xhr.open('POST', 'http://localhost:30018/api/register', true)
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        xhr.send(data)
+    })
 });
 
 //发送文件点击事件

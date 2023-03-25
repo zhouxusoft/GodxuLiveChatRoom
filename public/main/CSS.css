@@ -47,10 +47,6 @@ hr {
     padding: 0 10px;
 }
 
-.header::-webkit-scrollbar {
-    display: none;
-}
-
 .output {
     width: 300px;
     height: 470px;
@@ -300,7 +296,7 @@ hr {
 .changeinfo {
     color: skyblue;
     font-size: 18px;
-    margin: 5px 0;
+    margin: 3px 0;
 }
 
 .changeinfoinput {

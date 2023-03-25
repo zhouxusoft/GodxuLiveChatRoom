@@ -73,3 +73,34 @@ exports.login = (req, res) => {
         })
     })
 }
+
+//修改用户名
+exports.changeNickname = (req, res) => {
+    //接收表单数据
+    const userinfo = req.body
+    if (!userinfo) return res.cc(err)
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) return res.cc('昵称不能为空')
+    //检测用户名是否被占用
+    //定义查询语句
+    const sql = 'select * from usertable where nickname = ?'
+    //执行sql语句并根据结果判断
+    db.query(sql, [userinfo.nickname], function (err, results) {
+        if (err) {
+            return res.cc(err)
+        }
+        if (results.length > 0) {
+            return res.cc('昵称已存在')
+        }
+        const sql = 'UPDATE usertable SET nickname="${userinfo.nickname}" WHERE id=${userinfo.id}'
+        db.query(sql, (err, results) => {
+            if (err) {
+                return res.cc(err)
+            }
+            if (results.affectedRows !== 1) {
+                return res.cc('修改失败,请稍后再试')
+            }
+            res.send({ status: 0, message: '修改成功' })
+        })
+    })
+}

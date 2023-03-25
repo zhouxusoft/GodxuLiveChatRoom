@@ -230,7 +230,7 @@ changeinfo.addEventListener("click", function () {
                         let changeinfoinput= document.getElementsByClassName("changeinfoinput")[0]
                         changeinfoinput.value = ""
                         changeinfoinput.placeholder = token.nickname
-                        alert(resData.message)
+                        alert("修改成功！\n注意: 昵称修改不会影响用户名,登录时请使用用户名")
                     } else {
                         alert(resData.message)
                     }

@@ -158,7 +158,8 @@ hr {
     height: 30px;
 }
 
-.btn {   
+.btn { 
+    cursor: pointer;  
     border-radius: 6px;
     font-size: 16px;
     border: none;
@@ -167,7 +168,7 @@ hr {
     height: 30px;
     display: inline-block;
     color: skyblue;  
-    transition: 0.5s;
+    transition: 0.3s;
     margin: 7px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -199,6 +200,7 @@ hr {
 }
 
 .menubtn {
+    cursor: pointer;
     text-align: center;
     padding: 2px;
     margin: 1px 9px;
@@ -209,7 +211,7 @@ hr {
     display: inline-block;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .menubtn:hover {
@@ -221,10 +223,9 @@ hr {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 1000;
     background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ccc;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);   
     padding: 30px 10px;
     width: 240px;
     height: fit-content;
@@ -250,3 +251,49 @@ hr {
 .closebtn:hover {
     color: rgb(255, 140, 160);
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 999; /* 设置为一个较高的值，确保遮罩层覆盖在其他元素之上 */
+    display: none;
+}
+
+.exit {
+    text-align: center;
+    color: skyblue;
+    font-size: 20px;
+    margin: 10px 0 30px;
+}
+
+.makesure {
+    margin: auto;
+    width: 140px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.makesurebtn {
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    padding: 3px;
+    margin: 1px 9px;
+    width: 45px;
+    height: 30px;
+    background-color: bisque;
+    color: skyblue;
+    display: inline-block;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+}
+
+.makesurebtn:hover {
+    color: royalblue;
+}
+

@@ -89,7 +89,6 @@ socket.on('count', (connCount) => {
         element.remove();
     });
     header[0].innerHTML += `<span class="count">在线人数：${connCount}</span>`;
-    header[0].scrollTop = header[0].scrollHeight;
 });
 
 //发送消息时触发
@@ -121,8 +120,14 @@ sendForm.addEventListener('submit', function (e) {
     btn[0].classList.remove("btnup")
 })
 
+//获取元素
 let pop = document.getElementsByClassName("pop")[0];
-let exit = document.getElementById("exit")
+let overlay = document.getElementsByClassName("overlay")[0];
+let exit = document.getElementById("exit");
+let changename = document.getElementById("changename");
+let sendfile = document.getElementById("sendfile");
+let sendimg = document.getElementById("sendimg");
+let changeroom = document.getElementById("changeroom");
 
 //显示/关闭弹窗
 function showPop() {
@@ -130,19 +135,65 @@ function showPop() {
     while (pop.firstChild) {  
         pop.removeChild(pop.firstChild);
     }
-    pop.innerHTML += '<dic class="closebtn"></div>';
     pop.style.display = "block";
-    //获取关闭按钮 注册监听事件
-    let closebtn = document.getElementsByClassName("closebtn")[0];
-    closebtn.addEventListener("click", function () {
-        hidePop()
+    overlay.style.display = "block";
+
+    //添加并获取关闭按钮 注册监听事件
+    pop.innerHTML += `<div class="closebtn"></div>`;
+    pop.addEventListener("click", function (event) {
+        if (event.target.classList.contains("closebtn")) {
+            hidePop();
+        }
     });
+
+    // //添加并获取关闭按钮 注册监听事件
+    // pop.innerHTML += `<div class="closebtn"></div>`;
+    // let closebtn = pop.querySelector(".closebtn");
+    // closebtn.addEventListener("click", function () {
+    //     hidePop()
+    // });
 }
 
 function hidePop() {
     pop.style.display = "none";
+    overlay.style.display = "none";
 }
 
+//退出登录点击事件
 exit.addEventListener("click", function () {
+    showPop()
+    pop.innerHTML += `<div class="exit">是否确认退出</div>
+                      <div class="makesure">
+                          <div class="makesurebtn" id="yesbtn">确认</div>
+                          <div class="makesurebtn" id="nobtn">取消</div>
+                      </div>`;
+    let yesbtn = document.getElementById("yesbtn");
+    let nobtn = document.getElementById("nobtn");
+    yesbtn.addEventListener("click", function () {
+        localStorage.clear()
+        window.location = '../login/'
+    });
+    nobtn.addEventListener("click", function () {
+        hidePop()
+    });
+});
+
+//修改昵称点击事件
+changename.addEventListener("click", function () {
+    showPop()
+});
+
+//发送文件点击事件
+sendfile.addEventListener("click", function () {
+    showPop()
+});
+
+//发送图片点击事件
+sendimg.addEventListener("click", function () {
+    showPop()
+});
+
+//修改房间点击事件
+changeroom.addEventListener("click", function () {
     showPop()
 });

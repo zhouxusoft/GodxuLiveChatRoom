@@ -14,7 +14,7 @@ const socket = io('http://127.0.0.1:30018', {
 //获取到输出框，用于修改内容
 let output = document.getElementsByClassName("output");
 let header = document.getElementsByClassName("header");
-let bottombox = document.getElementsByClassName("box");
+let menu = document.getElementsByClassName("menu");
 
 //获取输入框，用于判断其内部的内容
 //获取发送按钮
@@ -31,9 +31,9 @@ inputElement[0].addEventListener('input', (event) => {
     if (inputValue) {
         btn[0].classList.remove("btndown")
         btn[0].classList.add("btnup")
-        if (output[0].style.height == "400px") {
-            output[0].style.height = "450px"
-            bottombox[0].style.height = "44px"
+        if (output[0].style.height == "420px") {
+            output[0].style.height = "470px"
+            menu[0].style.height = "7px"
         }
     } else {
         btn[0].classList.add("btndown")
@@ -44,12 +44,12 @@ inputElement[0].addEventListener('input', (event) => {
 btndown[0].addEventListener("click", function () {
     //点击事件先判断是否有值，若没有，则打开下拉菜单
     if (!inputElement[0].value) {
-        if (output[0].style.height == "400px") {
-            output[0].style.height = "450px"
-            bottombox[0].style.height = "44px"
+        if (output[0].style.height == "420px") {
+            output[0].style.height = "470px"
+            menu[0].style.height = "7px"
         } else {
-            output[0].style.height = "400px"
-            bottombox[0].style.height = "94px"
+            output[0].style.height = "420px"
+            menu[0].style.height = "57px"
         }
     }  
 });
@@ -120,3 +120,29 @@ sendForm.addEventListener('submit', function (e) {
     btn[0].classList.add("btndown")
     btn[0].classList.remove("btnup")
 })
+
+let pop = document.getElementsByClassName("pop")[0];
+let exit = document.getElementById("exit")
+
+//显示/关闭弹窗
+function showPop() {
+    //每打开一次 其内部的元素都应该重新加载一遍
+    while (pop.firstChild) {  
+        pop.removeChild(pop.firstChild);
+    }
+    pop.innerHTML += '<dic class="closebtn"></div>';
+    pop.style.display = "block";
+    //获取关闭按钮 注册监听事件
+    let closebtn = document.getElementsByClassName("closebtn")[0];
+    closebtn.addEventListener("click", function () {
+        hidePop()
+    });
+}
+
+function hidePop() {
+    pop.style.display = "none";
+}
+
+exit.addEventListener("click", function () {
+    showPop()
+});

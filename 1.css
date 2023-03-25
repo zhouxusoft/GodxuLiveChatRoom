@@ -3,6 +3,7 @@
     padding: 0;
     user-select: none;
     box-sizing: border-box;
+
 }
 
 body {
@@ -53,7 +54,7 @@ hr {
 
 .output {
     width: 300px;
-    height: 470px;
+    height: 450px;
     background-color: rgba(240, 240 , 240, 0.6);
     padding: 10px;
     overflow: auto;
@@ -134,14 +135,35 @@ hr {
     width: fit-content;
 }
 
-.box {
-    width: 300px;
-    background-color: rgba(240, 240 , 240, 0.6);
-    padding: 0 5px;
-    height: 37px;
-    transition: 0.5s;
+.btnbox {
     display: flex;
     justify-content: space-between;
+}
+
+.default {
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    background-color: bisque;
+    width: 120px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: skyblue;
+    padding: 8px;   
+    transition: 0.5s;
+}
+
+.box {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(240, 240 , 240, 0.6);
+    border-radius: 0 0 6px 6px;
+    padding: 0 5px;
+    height: 44px;
+    transition: 0.5s;
+    overflow: hidden;
 }
 
 .input {
@@ -156,6 +178,9 @@ hr {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     width: 240px;
     height: 30px;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
 }
 
 .btn {   
@@ -166,7 +191,10 @@ hr {
     width: 45px;
     height: 30px;
     display: inline-block;
-    color: skyblue;  
+    position: relative;
+    text-decoration: none;
+    color: skyblue;
+    padding: 5px;   
     transition: 0.5s;
     margin: 7px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -186,67 +214,41 @@ hr {
     color: royalblue;
 }
 
-.menu {
-    width: 300px;
-    height: 7px;
-    border-radius: 0 0 6px 6px;
-    padding: 8px 5px 0;
-    background-color: rgba(240, 240 , 240, 0.6);
-    display: flex;
-    justify-content: space-between;
-    overflow: hidden;
-    transition: 0.5s;
-}
-
-.menubtn {
-    text-align: center;
-    padding: 2px;
-    margin: 1px 9px;
-    width: 40px;
-    height: 40px;
-    background-color: bisque;
+/* .btn:after {
+    font-size: 18px;
+    position: absolute;
+    right: 2px;
     color: skyblue;
-    display: inline-block;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    content: '»';
+    opacity: 0;
     transition: 0.5s;
 }
 
-.menubtn:hover {
+.btn:hover {
     color: royalblue;
+    padding-right: 17px;
 }
 
-.pop {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ccc;
-    padding: 30px 10px;
-    width: 240px;
-    height: fit-content;
-    border-radius: 6px;
+.btn:hover:after {
+    color: royalblue;
+    opacity: 1;
+    right: 6px;
+} */
+
+
+/*用于消除edge密码框的默认小眼睛*/
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+input[type="password"]::-ms-clear {
+    display: none;
+}
+input[type="password"]::-o-clear {
     display: none;
 }
 
-.closebtn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    cursor: pointer;
-    color: skyblue; /* 将图标颜色设置为白色 */
-    font-size: 20px; /* 设置图标大小 */
-    transition: 0.3s;
-}
-
-.closebtn::before {
-    content : "\f057";
-    font-family: fontAwesome; 
-}
-
-.closebtn:hover {
-    color: rgb(255, 140, 160);
+.c {
+    width: 40px;
+    height: 40px;
+    background-color: red;
 }

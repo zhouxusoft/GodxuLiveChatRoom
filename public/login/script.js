@@ -16,7 +16,6 @@ for (let i = 0; i < logoButtons.length; i++) {
 const loginForm = document.getElementById('loginForm')
 
 loginForm.addEventListener('submit', function (e) {
-
     e.preventDefault()
     let xhr = new XMLHttpRequest()
     let data = {

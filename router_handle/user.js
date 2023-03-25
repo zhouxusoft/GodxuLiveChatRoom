@@ -92,8 +92,8 @@ exports.changeNickname = (req, res) => {
         if (results.length > 0) {
             return res.cc('昵称已存在')
         }
-        const sql = 'UPDATE usertable SET nickname="${userinfo.nickname}" WHERE id=${userinfo.id}'
-        db.query(sql, (err, results) => {
+        const sql = 'UPDATE usertable SET nickname=? WHERE id=?'
+        db.query(sql, [userinfo.nickname, userinfo.id], (err, results) => {
             if (err) {
                 return res.cc(err)
             }

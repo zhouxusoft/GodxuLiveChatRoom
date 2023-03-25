@@ -41,7 +41,6 @@ hr {
     background-color: rgba(240, 240 , 240, 0.6);
     border-radius: 6px 6px 0 0;
     padding: 0px;
-    overflow: auto;
     font-weight: lighter;
     justify-content: space-between;
     padding: 0 10px;
@@ -323,6 +322,7 @@ hr {
     text-align: center;
     font-size: 15px;
     font-weight: lighter;
+    border: none;
     padding: 5px;
     margin: 5px 0;
     width: 72px;

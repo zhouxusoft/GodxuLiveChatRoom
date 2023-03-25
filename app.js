@@ -7,9 +7,6 @@ const cors = require('cors')
 //导入用户路由模块
 const userRouter = require('./router/user')
 
-//解析token的中间件
-const expressJWT = require('express-jwt')
-
 //创建express的服务器实例
 const app = express()
 

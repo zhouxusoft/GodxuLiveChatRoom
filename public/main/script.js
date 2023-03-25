@@ -178,9 +178,17 @@ exit.addEventListener("click", function () {
     });
 });
 
-//修改昵称点击事件
+//修改信息点击事件
 changeinfo.addEventListener("click", function () {
     showPop()
+    pop.innerHTML += `<div class="changeinfo">修改昵称</div>
+                      <input class="changeinfoinput" placeholder="${token.nickname}">
+                      <div class="makesurechange">确认修改</div>
+                      <div class="clear"></div>
+                      <div class="changeinfo">修改密码</div>
+                      <input class="changeinfoinput" placeholder="原密码">
+                      <input class="changeinfoinput" placeholder="新密码">
+                      <div class="makesurechange">确认修改</div>`;
 });
 
 //发送文件点击事件

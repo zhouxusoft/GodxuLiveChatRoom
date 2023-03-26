@@ -18,6 +18,8 @@ app.use(express.static(__dirname + "/public/"));
 app.use(express.static(__dirname + "/public/main/"));
 
 io.on('connection', (socket) => {
+
+    //客户端发送消息时触发
     socket.on('message', (message) => {
         let ins = JSON.parse(message)
         const sql = 'insert into usermessage set ?'
@@ -31,11 +33,15 @@ io.on('connection', (socket) => {
             })
         io.emit('message', message)
     });
+
+    //客户端登录时触发
     socket.on('login', (login) => {
         //console.log(login)
+        //向所有客户端广播有用户登录
         io.emit('login', login)
         io.emit('count', io.engine.clientsCount)
-        const sql = 'SELECT * FROM usermessage WHERE room = 1 ORDER BY id LIMIT 50 OFFSET 0;'
+        //刚登陆的客户端查询历史聊天记录
+        const sql = 'SELECT * FROM usermessage WHERE room = 1 ORDER BY id LIMIT 30 OFFSET 0;'
         db.query(sql, 1, (err, results) => {
             if (err) throw err;
             for (let i = 0; i < results.length; i++) {

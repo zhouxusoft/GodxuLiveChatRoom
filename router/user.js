@@ -22,5 +22,8 @@ router.post('/login', user_handle.login)
 //修改昵称
 router.post('/changeNickname', user_handle.changeNickname)
 
+//修改密码
+router.post('/changePassword', user_handle.changePassword)
+
 //将路由对象共享出去
 module.exports = router

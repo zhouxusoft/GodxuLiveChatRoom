@@ -181,18 +181,19 @@ exit.addEventListener("click", function () {
 //修改信息点击事件
 changeinfo.addEventListener("click", function () {
     showPop()
-    pop.innerHTML += `<form action="" id="changenameForm">
-                        <div class="changeinfo">修改昵称</div>
-                        <input class="changeinfoinput" placeholder="${token.nickname}" name="nickname">
-                        <button class="makesurechange" type="submit">确认修改</button>
-                        <div class="clear"></div>
-                      </form>
-                      <form action="" id="changepasswordForm">
-                        <div class="changeinfo">修改密码</div>
-                        <input class="changeinfoinput" placeholder="原密码">
-                        <input class="changeinfoinput" placeholder="新密码">
-                        <div class="makesurechange" type="submit">确认修改</div>
-                      </form>`;
+    pop.innerHTML += 
+        `<form action="" id="changenameForm">
+        <div class="changeinfo">修改昵称</div>
+        <input class="changeinfoinput" placeholder="${token.nickname}" name="nickname">
+        <button class="makesurechange" type="submit">确认修改</button>
+        <div class="clear"></div>
+        </form>
+        <form action="" id="changepasswordForm">
+        <div class="changeinfo">修改密码</div>
+        <input class="changeinfoinput" placeholder="原密码" name="nowpassword">
+        <input class="changeinfoinput" placeholder="新密码" name="newpassword">
+        <button class="makesurechange" type="submit">确认修改</button>
+        </form>`;
 
     //用于检测输入是否有空白符
     function hasWhiteSpace(str) {
@@ -207,44 +208,82 @@ changeinfo.addEventListener("click", function () {
             const length = new RegExp('(^.{1,12}$)')
             if (length.test(this.nickname.value) && !hasWhiteSpace(this.nickname.value)) {
                 let xhr = new XMLHttpRequest()
-            let data = {
-                id: token.id,
-                nickname: this.nickname.value
-            }
-            let formData = ''
-            for (let key in data) {
-                formData += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
-            }
-            formData = formData.slice(0, -1)
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    let resData = JSON.parse(this.response)
-                    console.log(resData.status)
-                    if (resData.status == 0) {
-                        token.nickname = data.nickname
-                        localStorage.clear()
-                        localStorage.setItem("token", JSON.stringify({"id":3,
-                                                                      "username":token.nickname,
-                                                                      "password":"",
-                                                                      "nickname":token.nickname}))
-                        let changeinfoinput= document.getElementsByClassName("changeinfoinput")[0]
-                        changeinfoinput.value = ""
-                        changeinfoinput.placeholder = token.nickname
-                        alert("修改成功！\n注意: 昵称修改不会影响用户名,登录时请使用用户名")
-                    } else {
-                        alert(resData.message)
-                    }
-                } 
-            }
-            xhr.open('POST', 'http://localhost:30017/api/changeNickname', true)
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-            xhr.send(formData)
+                let data = {
+                    id: token.id,
+                    nickname: this.nickname.value
+                }
+                let formData = ''
+                for (let key in data) {
+                    formData += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
+                }
+                formData = formData.slice(0, -1)
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let resData = JSON.parse(this.response)
+                        if (resData.status == 0) {
+                            token.nickname = data.nickname
+                            localStorage.clear()
+                            localStorage.setItem("token", JSON.stringify({
+                                "id":3,
+                                "username":token.nickname,
+                                "password":"",
+                                "nickname":token.nickname}))
+                            let changeinfoinput= document.getElementsByClassName("changeinfoinput")[0]
+                            changeinfoinput.value = ""
+                            changeinfoinput.placeholder = token.nickname
+                            alert("修改成功！\n注意: 昵称修改不会影响用户名,登录时请使用用户名")
+                        } else {
+                            alert(resData.message)
+                        }
+                    } 
+                }
+                xhr.open('POST', 'http://localhost:30017/api/changeNickname', true)
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                xhr.send(formData)
             } else {
                 alert("昵称不合法")
             } 
         }
     })
-
+    const changepasswordForm = document.getElementById("changepasswordForm")
+    changepasswordForm.addEventListener("submit", function (e) {
+        e.preventDefault()
+        if (this.nowpassword.value && this.newpassword.value) {
+            console.log(456)
+            const length = new RegExp('(?=.{6,})')
+            if (length.test(this.newpassword.value) && !hasWhiteSpace(this.newpassword.value)) {
+                console.log(789)
+                let xhr = new XMLHttpRequest()
+                let data = {
+                    id: token.id,
+                    nowpassword: this.nowpassword.value,
+                    newpassword: this.newpassword.value
+                }
+                let formData = ''
+                for (let key in data) {
+                    formData += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
+                }
+                formData = formData.slice(0, -1)
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let resData = JSON.parse(this.response)
+                        if (resData.status == 0) {
+                            alert("修改密码后需重新登录")
+                            localStorage.clear()
+                            window.location = "../login"
+                        } else {
+                            alert(resData.message)
+                        }
+                    }
+                }
+                xhr.open('POST', 'http://localhost:30017/api/changePassword', true)
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                xhr.send(formData)
+            } else {
+                alert("密码长度小于6位或含有非法字符")
+            }
+        }
+    })  
 });
 
 //发送文件点击事件

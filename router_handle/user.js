@@ -104,3 +104,42 @@ exports.changeNickname = (req, res) => {
         })
     })
 }
+
+//修改密码
+exports.changePassword = (req, res) => {
+    //请求表单数据
+    const userinfo = req.body
+
+    //定义sql语句
+    const sql = 'select password from usertable where id = ?'
+    //执行SQL语句，查询用户数据
+    db.query(sql, userinfo.id, function (err, results) {
+        //执行sql语句失败
+        if (err) {
+            return res.cc(err)
+        }
+        //执行sql语句成功，但查询到的数据不等于1
+        if (results.length !== 1) {
+            return res.cc('出错了,请联系管理员反馈\nWeChat: zhouxusoft')
+        }
+        //判断密码是否正确
+        const compareResult = bcrypt.compareSync(userinfo.nowpassword, results[0].password)
+        if (!compareResult) {
+            return res.cc('修改失败，原密码错误')
+        }
+        if (userinfo.nowpassword == userinfo.newpassword) {
+            return res.cc('修改失败，新旧密码不能相同')
+        }
+        userinfo.newpassword = bcrypt.hashSync(userinfo.newpassword, 10)
+        const sql = 'UPDATE usertable SET password=? WHERE id=?'
+        db.query(sql, [userinfo.newpassword, userinfo.id], (err, results) => {
+            if (err) {
+                return res.cc(err)
+            }
+            if (results.affectedRows !== 1) {
+                return res.cc('修改失败,请稍后再试')
+            }
+            res.send({ status: 0, message: '修改成功' })
+        })
+    })
+}

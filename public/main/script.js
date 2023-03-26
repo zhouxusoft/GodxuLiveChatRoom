@@ -101,7 +101,7 @@ socket.on('count', (connCount) => {
 //服务端向客户端发送消息时触发
 socket.on('message', (message) => {
     //将字符串转回对象
-    //console.log(message)
+    console.log(message)
     let data = JSON.parse(message)
     if (data.userid == token.id) {
         output[0].innerHTML +=

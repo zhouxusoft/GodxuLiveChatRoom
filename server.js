@@ -23,12 +23,14 @@ io.on('connection', (socket) => {
     socket.on('message', (message) => {
         let ins = JSON.parse(message)
         const sql = 'insert into usermessage set ?'
+        console.log(ins.message)
         db.query(sql, { 
             userid: ins.userid,
             nickname: ins.nickname, 
             message: ins.message,
             time: ins.time,
-            room: ins.room}, (err, results) => {
+            room: ins.room
+            }, (err, results) => {
                 if (err) throw err;
             })
         io.emit('message', message)
@@ -58,7 +60,6 @@ io.on('connection', (socket) => {
         io.emit('count', io.engine.clientsCount)
     });
 });
-
 
 //启动服务器
 server.listen(30018, () => {

@@ -2,6 +2,9 @@
 //判断值是否为空
 let token = JSON.parse(localStorage.getItem("token"))
 
+//设置时间
+let date = new Date()
+
 //0.5s后再进行判断 为了防止页面刷新过快而出现token为空的误判
 if (!token) {
     window.location = '../login/'
@@ -25,7 +28,6 @@ let btndown = document.getElementsByClassName("btndown")
 //给输入框添加监听事件，判断内容
 //input中有内容 箭头向上 代表发送
 //无内容 箭头向下 代表打开下拉菜单
-
 inputElement[0].addEventListener('input', (event) => {
     let inputValue = event.target.value;
     if (inputValue) {
@@ -41,6 +43,7 @@ inputElement[0].addEventListener('input', (event) => {
     }
 });
 
+//箭头向下时，点击打开下拉菜单
 btndown[0].addEventListener("click", function () {
     //点击事件先判断是否有值，若没有，则打开下拉菜单
     if (!inputElement[0].value) {
@@ -71,6 +74,7 @@ socket.on('login', (login) => {
     header[0].scrollTop = header[0].scrollHeight;
 });
 
+//客户端断开连接时触发
 socket.on('disc', (disconnect) => {
     //console.log("断连", disconnect)
     const elements = document.querySelectorAll('.joinin');
@@ -91,25 +95,35 @@ socket.on('count', (connCount) => {
     header[0].innerHTML += `<span class="count">在线人数：${connCount}</span>`;
 });
 
-//发送消息时触发
+//服务端向客户端发送消息时触发
 socket.on('message', (message) => {
     //将字符串转回对象
     //console.log(message)
     let data = JSON.parse(message)
     if (data.nickname == token.nickname) {
-        output[0].innerHTML += `<div class="selfuser">${data.nickname}</div>
-                                <div class="selfmessage">${data.value}</div>
-                                <div class="clear"></div>`;
+        output[0].innerHTML +=
+            `<div class="usertimebox">
+                <div class="sendtime">${data.time}</div>
+                <div class="senduser">${data.nickname}</div>
+            </div>
+            <div class="selfmessage">${data.value}</div>
+            <div class="clear"></div>`;
     } else {
-        output[0].innerHTML += `<div class="otheruser">${data.nickname}</div>
-                                <div class="othermessage">${data.value}</div>`;
+        output[0].innerHTML += 
+            `<div class="usertimebox">
+                <div class="senduser">${data.nickname}</div>
+                <div class="sendtime">${data.time}</div>
+            </div>
+            <div class="othermessage">${data.value}</div>`;
     }
     output[0].scrollTop = output[0].scrollHeight;
 });
 
+//客户端发送消息时触发
 sendForm.addEventListener('submit', function (e) {
     e.preventDefault()
-    let toSend = { nickname: token.nickname, value: this.tosend.value }
+    date = new Date().toLocaleString()
+    let toSend = { nickname: token.nickname, value: this.tosend.value, time: date}
     if (toSend.value) {
         socket.emit('message', JSON.stringify(toSend))
     }

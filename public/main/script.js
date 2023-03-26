@@ -106,7 +106,7 @@ socket.on('message', (message) => {
                 <div class="sendtime">${data.time}</div>
                 <div class="senduser">${data.nickname}</div>
             </div>
-            <div class="selfmessage">${data.value}</div>
+            <div class="selfmessage">${data.message}</div>
             <div class="clear"></div>`;
     } else {
         output[0].innerHTML += 
@@ -114,7 +114,7 @@ socket.on('message', (message) => {
                 <div class="senduser">${data.nickname}</div>
                 <div class="sendtime">${data.time}</div>
             </div>
-            <div class="othermessage">${data.value}</div>`;
+            <div class="othermessage">${data.message}</div>`;
     }
     output[0].scrollTop = output[0].scrollHeight;
 });
@@ -123,8 +123,8 @@ socket.on('message', (message) => {
 sendForm.addEventListener('submit', function (e) {
     e.preventDefault()
     date = new Date().toLocaleString()
-    let toSend = { nickname: token.nickname, value: this.tosend.value, time: date}
-    if (toSend.value) {
+    let toSend = { userid: token.id, nickname: token.nickname, message: this.tosend.value, time: date, room: 1}
+    if (toSend.message) {
         socket.emit('message', JSON.stringify(toSend))
     }
     //console.log(toSend.nickname)

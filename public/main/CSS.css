@@ -83,15 +83,16 @@ hr {
 
 .sendtime {
     color: whitesmoke;
-    font-size: 12px;
+    font-size: 13px;
     margin: 5px 0;
-    padding: 2px;
+    padding: 3px;
 }
 
 .senduser {
     color: rgb(255, 230, 215);
     font-size: 14px;
     margin: 5px 0;
+    padding: 3px;
 }
 
 .clear {
@@ -124,7 +125,7 @@ hr {
     width: auto;
     padding: 2px 5px;
     border-radius: 5px;
-    word-break: normal;
+    word-break: break-all;
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow: hidden;

@@ -61,6 +61,9 @@ btndown[0].addEventListener("click", function () {
 socket.on('connect', () => {
     //将连接着的昵称传到服务端
     socket.emit('login', token.nickname)
+    while (output[0].firstChild) {  
+        output[0].removeChild(output[0].firstChild);
+    }
 });
 
 //客户端登陆时触发
@@ -100,7 +103,7 @@ socket.on('message', (message) => {
     //将字符串转回对象
     //console.log(message)
     let data = JSON.parse(message)
-    if (data.nickname == token.nickname) {
+    if (data.userid == token.id) {
         output[0].innerHTML +=
             `<div class="usertimebox">
                 <div class="sendtime">${data.time}</div>

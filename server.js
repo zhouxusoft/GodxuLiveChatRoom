@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
     socket.on('message', (message) => {
         let ins = JSON.parse(message)
         const sql = 'insert into usermessage set ?'
-        console.log(ins.message)
+        //console.log(ins.message)
         db.query(sql, { 
             userid: ins.userid,
             nickname: ins.nickname, 
@@ -43,10 +43,10 @@ io.on('connection', (socket) => {
         io.emit('login', login)
         io.emit('count', io.engine.clientsCount)
         //刚登陆的客户端查询历史聊天记录
-        const sql = 'SELECT * FROM usermessage WHERE room = 1 ORDER BY id LIMIT 30 OFFSET 0;'
+        const sql = 'SELECT * FROM usermessage WHERE room = 1 ORDER BY id DESC LIMIT 50;'
         db.query(sql, 1, (err, results) => {
             if (err) throw err;
-            for (let i = 0; i < results.length; i++) {
+            for (let i = results.length; i > 0; i--) {
                 let message = results[i]
                 socket.emit("message", JSON.stringify(message))
             }

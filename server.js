@@ -43,10 +43,10 @@ io.on('connection', (socket) => {
         io.emit('login', login)
         io.emit('count', io.engine.clientsCount)
         //刚登陆的客户端查询历史聊天记录
-        const sql = 'SELECT * FROM usermessage WHERE room = 1 ORDER BY id DESC LIMIT 50;'
+        const sql = 'SELECT * FROM usermessage WHERE room = ? ORDER BY id DESC LIMIT 50;'
         db.query(sql, 1, (err, results) => {
             if (err) throw err;
-            for (let i = results.length; i > 0; i--) {
+            for (let i = results.length - 1; i >= 0; i--) {
                 let message = results[i]
                 socket.emit("message", JSON.stringify(message))
             }

@@ -101,32 +101,34 @@ socket.on('count', (connCount) => {
 //服务端向客户端发送消息时触发
 socket.on('message', (message) => {
     //将字符串转回对象
-    console.log(message)
+    //console.log(message)
     let data = JSON.parse(message)
-    if (data.userid == token.id) {
-        output[0].innerHTML +=
-            `<div class="usertimebox">
-                <div class="sendtime">${data.time}</div>
-                <div class="senduser">${data.nickname}</div>
-            </div>
-            <div class="selfmessage">${data.message}</div>
-            <div class="clear"></div>`;
-    } else {
-        output[0].innerHTML += 
-            `<div class="usertimebox">
-                <div class="senduser">${data.nickname}</div>
-                <div class="sendtime">${data.time}</div>
-            </div>
-            <div class="othermessage">${data.message}</div>`;
-    }
-    output[0].scrollTop = output[0].scrollHeight;
+    if (data.room == token.room) {
+        if (data.userid == token.id) {
+            output[0].innerHTML +=
+                `<div class="usertimebox">
+                    <div class="sendtime">${data.time}</div>
+                    <div class="senduser">${data.nickname}</div>
+                </div>
+                <div class="selfmessage">${data.message}</div>
+                <div class="clear"></div>`;
+        } else {
+            output[0].innerHTML += 
+                `<div class="usertimebox">
+                    <div class="senduser">${data.nickname}</div>
+                    <div class="sendtime">${data.time}</div>
+                </div>
+                <div class="othermessage">${data.message}</div>`;
+        }
+        output[0].scrollTop = output[0].scrollHeight;
+    } 
 });
 
 //客户端发送消息时触发
 sendForm.addEventListener('submit', function (e) {
     e.preventDefault()
     date = new Date().toLocaleString()
-    let toSend = { userid: token.id, nickname: token.nickname, message: this.tosend.value, time: date, room: 1}
+    let toSend = { userid: token.id, nickname: token.nickname, message: this.tosend.value, time: date, room: token.room}
     if (toSend.message) {
         socket.emit('message', JSON.stringify(toSend))
     }
@@ -316,4 +318,5 @@ sendimg.addEventListener("click", function () {
 //修改房间点击事件
 changeroom.addEventListener("click", function () {
     showPop()
+    
 });

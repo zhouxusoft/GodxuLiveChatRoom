@@ -318,5 +318,15 @@ sendimg.addEventListener("click", function () {
 //修改房间点击事件
 changeroom.addEventListener("click", function () {
     showPop()
-    
+    pop.innerHTML += 
+        `<div class="roomhead">
+            <div class="roomtitle">房间列表</div>
+            <button class="roombtn">搜索房间</button>
+        </div>
+        <div class="roomlist"></div>
+        <div class="roomhead">
+            <button class="roombtn">创建房间</button>
+            <button class="roombtn">我创建的</button>
+        </div>
+        `
 });

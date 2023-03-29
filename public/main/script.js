@@ -178,7 +178,7 @@ function showPop() {
 function showPop2() {
     //每打开一次 其内部的元素都应该重新加载一遍
     while (pop2.firstChild) {  
-        pop2.removeChild(pop.firstChild);
+        pop2.removeChild(pop2.firstChild);
     }
     pop2.style.display = "block";
     overlay2.style.display = "block";
@@ -201,6 +201,11 @@ function hidePop() {
 function hidePop2() {
     pop2.style.display = "none";
     overlay2.style.display = "none";
+}
+
+//用于检测输入是否有空白符
+function hasWhiteSpace(str) {
+    return /\s/g.test(str);
 }
 
 //退出登录点击事件
@@ -238,11 +243,6 @@ changeinfo.addEventListener("click", function () {
         <input class="changeinfoinput" placeholder="新密码" name="newpassword">
         <button class="makesurechange" type="submit">确认修改</button>
         </form>`;
-
-    //用于检测输入是否有空白符
-    function hasWhiteSpace(str) {
-        return /\s/g.test(str);
-    }
 
     const changenameForm = document.getElementById("changenameForm")
     changenameForm.addEventListener("submit", function (e) {
@@ -379,7 +379,37 @@ socket.on("roomlist", (roomdata) => {
                 if (roomdata[i].password) {
                     showPop2()
                     pop2.innerHTML += 
-                        `<div>`
+                        `<div class="roomtitle">输入密码</div>
+                        <form action="" id="roompasswordForm">
+                        <input class="roominput" name="roompassword" autocomplete="off">
+                        <div class="makesure">
+                          <button class="makesurebtn" type="submit">确认</button>
+                          <button class="makesurebtn" type="button" id="noroompassword">取消</button>
+                        </div>
+                        </form>`
+                    let noroompassword = document.getElementById("noroompassword")
+                    noroompassword.addEventListener("click", function () {
+                        hidePop2()
+                    });
+                    const roompasswordForm = document.getElementById("roompasswordForm")
+                    roompasswordForm.addEventListener('submit', function (e) {
+                        e.preventDefault()
+                        if (this.roompassword.value) {
+                            if (this.roompassword.value == roomdata[i].password) {
+                                //修改目前所在房间的id值
+                                token.room = roomdata[i].id
+                                localStorage.setItem("token", JSON.stringify(token))
+                                while (output[0].firstChild) {  
+                                    output[0].removeChild(output[0].firstChild);
+                                }
+                                socket.emit("login", JSON.stringify(token))
+                                hidePop2()
+                                hidePop()
+                            } else {
+                                alert("密码错误")
+                            }
+                        }
+                    })
                 } else {
                     //修改目前所在房间的id值
                     token.room = roomdata[i].id

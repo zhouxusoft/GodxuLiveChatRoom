@@ -286,6 +286,7 @@ hr {
     width: 45px;
     height: 30px;
     background-color: bisque;
+    border: none;
     color: skyblue;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -455,4 +456,22 @@ hr {
     height: fit-content;
     border-radius: 6px;
     display: none;
+}
+
+.roominput {
+    font-size: 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #666666;
+    outline: none;
+    border: none;
+    margin: 10px 0 20px;
+    padding: 3px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 160px;
+    height: 25px;
+}
+
+.roominput::placeholder {
+    color: #66666699;
 }

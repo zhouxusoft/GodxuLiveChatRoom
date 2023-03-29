@@ -60,7 +60,7 @@ btndown[0].addEventListener("click", function () {
 //客户端连接成功后触发
 socket.on('connect', () => {
     //将连接着的昵称传到服务端
-    socket.emit('login', token.nickname)
+    socket.emit('login', JSON.stringify(token))
     while (output[0].firstChild) {  
         output[0].removeChild(output[0].firstChild);
     }
@@ -333,7 +333,7 @@ changeroom.addEventListener("click", function () {
 });
 
 socket.on("roomlist", (roomdata) => {
-    console.log(roomdata)
+    //console.log(roomdata)
     let roomlist =  document.getElementsByClassName("roomlist")[0]
     if (roomdata) {
         for (let i = 0; i < roomdata.length; i++) {
@@ -345,8 +345,24 @@ socket.on("roomlist", (roomdata) => {
                 `<div class="roombox">
                     <div class="roomname">${roomdata[i].roomname}</div>
                     <div class="roomlock">${lock}</div>
-                    <div class="roombtn roomjoin">加入</div>
+                    <div class="roombtn roomjoin" id="${i}">加入</div>
                 </div>`  
-        }   
+        }
+        let roombtns = document.getElementsByClassName("roomjoin")
+        for (let i = 0; i < roombtns.length; i++) {
+            roombtns[i].addEventListener("click", () => {
+                if (roomdata[i].password) {
+                    
+                }
+                //修改目前所在房间的id值
+                token.room = roomdata[i].id
+                localStorage.setItem("token", JSON.stringify(token))
+                while (output[0].firstChild) {  
+                    output[0].removeChild(output[0].firstChild);
+                }
+                socket.emit("login", JSON.stringify(token))
+                hidePop()
+            });     
+        }
     }
 });

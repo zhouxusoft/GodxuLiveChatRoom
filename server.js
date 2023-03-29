@@ -40,11 +40,12 @@ io.on('connection', (socket) => {
     socket.on('login', (login) => {
         //console.log(login)
         //向所有客户端广播有用户登录
-        io.emit('login', login)
+        login = JSON.parse(login)
+        io.emit('login', login.nickname)
         io.emit('count', io.engine.clientsCount)
         //刚登陆的客户端查询历史聊天记录
         const sql = 'SELECT * FROM usermessage WHERE room = ? ORDER BY id DESC LIMIT 50;'
-        db.query(sql, 1, (err, results) => {
+        db.query(sql, login.room, (err, results) => {
             if (err) throw err;
             for (let i = results.length - 1; i >= 0; i--) {
                 let message = results[i]

@@ -52,12 +52,23 @@ io.on('connection', (socket) => {
             }
         })
     });
+
+    //断联时触发
     socket.on('disconnect', () => {
         //console.log(123)
         const customId = socket.handshake.query.id;
         socket.id = customId;
         io.emit('disc', socket.id)
         io.emit('count', io.engine.clientsCount)
+    });
+
+    //点击房间列表时触发
+    socket.on('roomlist', (token) => {
+        const sql = `SELECT * FROM roomtable`
+        db.query(sql, (err, results) => {
+            if (err) return err;
+            socket.emit("roomlist", results)
+        })
     });
 });
 

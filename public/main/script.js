@@ -327,6 +327,26 @@ changeroom.addEventListener("click", function () {
         <div class="roomhead">
             <button class="roombtn">创建房间</button>
             <button class="roombtn">我创建的</button>
-        </div>
-        `
+        </div>`
+    socket.emit("roomlist", JSON.stringify(token))
+    
+});
+
+socket.on("roomlist", (roomdata) => {
+    console.log(roomdata)
+    let roomlist =  document.getElementsByClassName("roomlist")[0]
+    if (roomdata) {
+        for (let i = 0; i < roomdata.length; i++) {
+            let lock = "\uf3c1"
+            if (roomdata[i].password) {
+                lock = "\uf023"
+            }
+            roomlist.innerHTML += 
+                `<div class="roombox">
+                    <div class="roomname">${roomdata[i].roomname}</div>
+                    <div class="roomlock">${lock}</div>
+                    <div class="roombtn roomjoin">加入</div>
+                </div>`  
+        }   
+    }
 });

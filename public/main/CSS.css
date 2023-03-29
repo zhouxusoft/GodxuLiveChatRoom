@@ -390,13 +390,43 @@ hr {
     min-height: 100px;
     max-height: 270px;
     overflow: auto;
-    background-color: #666666;
+    background-color: whitesmoke;
+    border: 2px solid pink;
+    border-radius: 6px;
+    margin: 3px;
 }
 
 .roomlist::-webkit-scrollbar {
     display: none;
 }
 
-.roomdata {
+.roombox {
+    color: skyblue;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 3px 0;
+}
 
+.roomname {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: lighter;
+    width: 120px;
+    margin: 5px;
+}
+
+.roomlock {
+    align-items: center;
+    width: 20px;
+    font-family: fontAwesome;
+    display: inline-block;
+}
+
+.roomjoin {
+    font-size: 14px;
+    width: 40px;
+    height: 25px;
+    margin: 3px 5px;
+    padding: 4px;
 }

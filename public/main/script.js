@@ -141,7 +141,9 @@ sendForm.addEventListener('submit', function (e) {
 
 //获取元素
 let pop = document.getElementsByClassName("pop")[0];
+let pop2 = document.getElementsByClassName("pop2")[0];
 let overlay = document.getElementsByClassName("overlay")[0];
+let overlay2 = document.getElementsByClassName("overlay2")[0];
 let exit = document.getElementById("exit");
 let changeinfo = document.getElementById("changeinfo");
 let sendfile = document.getElementById("sendfile");
@@ -173,9 +175,32 @@ function showPop() {
     // });
 }
 
+function showPop2() {
+    //每打开一次 其内部的元素都应该重新加载一遍
+    while (pop2.firstChild) {  
+        pop2.removeChild(pop.firstChild);
+    }
+    pop2.style.display = "block";
+    overlay2.style.display = "block";
+
+    //添加并获取关闭按钮 注册监听事件
+    pop2.innerHTML += `<div class="closebtn"></div>`;
+    pop2.addEventListener("click", function (event) {
+        if (event.target.classList.contains("closebtn")) {
+            hidePop2();
+        }
+    });
+
+}
+
 function hidePop() {
     pop.style.display = "none";
     overlay.style.display = "none";
+}
+
+function hidePop2() {
+    pop2.style.display = "none";
+    overlay2.style.display = "none";
 }
 
 //退出登录点击事件
@@ -352,16 +377,19 @@ socket.on("roomlist", (roomdata) => {
         for (let i = 0; i < roombtns.length; i++) {
             roombtns[i].addEventListener("click", () => {
                 if (roomdata[i].password) {
-                    
+                    showPop2()
+                    pop2.innerHTML += 
+                        `<div>`
+                } else {
+                    //修改目前所在房间的id值
+                    token.room = roomdata[i].id
+                    localStorage.setItem("token", JSON.stringify(token))
+                    while (output[0].firstChild) {  
+                        output[0].removeChild(output[0].firstChild);
+                    }
+                    socket.emit("login", JSON.stringify(token))
+                    hidePop()
                 }
-                //修改目前所在房间的id值
-                token.room = roomdata[i].id
-                localStorage.setItem("token", JSON.stringify(token))
-                while (output[0].firstChild) {  
-                    output[0].removeChild(output[0].firstChild);
-                }
-                socket.emit("login", JSON.stringify(token))
-                hidePop()
             });     
         }
     }

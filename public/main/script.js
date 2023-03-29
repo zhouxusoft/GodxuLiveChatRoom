@@ -233,14 +233,14 @@ changeinfo.addEventListener("click", function () {
     pop.innerHTML += 
         `<form action="" id="changenameForm">
         <div class="changeinfo">修改昵称</div>
-        <input class="changeinfoinput" placeholder="${token.nickname}" name="nickname">
+        <input class="changeinfoinput" placeholder="${token.nickname}" name="nickname" autocomplete="off">
         <button class="makesurechange" type="submit">确认修改</button>
         <div class="clear"></div>
         </form>
         <form action="" id="changepasswordForm">
         <div class="changeinfo">修改密码</div>
-        <input class="changeinfoinput" placeholder="原密码" name="nowpassword">
-        <input class="changeinfoinput" placeholder="新密码" name="newpassword">
+        <input class="changeinfoinput" placeholder="原密码" name="nowpassword" autocomplete="off">
+        <input class="changeinfoinput" placeholder="新密码" name="newpassword" autocomplete="off">
         <button class="makesurechange" type="submit">确认修改</button>
         </form>`;
 

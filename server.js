@@ -43,6 +43,10 @@ io.on('connection', (socket) => {
         login = JSON.parse(login)
         io.emit('login', login.nickname)
         io.emit('count', io.engine.clientsCount)
+
+        if (!login.room) {
+            login.room = 1
+        }
         //刚登陆的客户端查询历史聊天记录
         const sql = 'SELECT * FROM usermessage WHERE room = ? ORDER BY id DESC LIMIT 50;'
         db.query(sql, login.room, (err, results) => {

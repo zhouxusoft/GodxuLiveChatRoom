@@ -22,8 +22,11 @@ let menu = document.getElementsByClassName("menu");
 //获取输入框，用于判断其内部的内容
 //获取发送按钮
 let inputElement = document.getElementsByClassName("input");
-let btn = document.getElementsByClassName("btn")
-let btndown = document.getElementsByClassName("btndown")
+let btn = document.getElementsByClassName("btn");
+let btndown = document.getElementsByClassName("btndown");
+
+//获取房间名显示元素
+let roomtoptitle = document.getElementById("roomtoptitle");
 
 //给输入框添加监听事件，判断内容
 //input中有内容 箭头向上 代表发送
@@ -103,6 +106,8 @@ socket.on('message', (message) => {
     //将字符串转回对象
     //console.log(message)
     let data = JSON.parse(message)
+    //检测房间状态
+    changeRoomTitle()
     if (data.room == token.room) {
         if (data.userid == token.id) {
             output[0].innerHTML +=
@@ -122,6 +127,15 @@ socket.on('message', (message) => {
         }
         output[0].scrollTop = output[0].scrollHeight;
     } 
+});
+
+//服务端返回房间名
+socket.on('roomtitle', (roomdata) => {
+    if (roomdata.length > 0) {
+        roomtoptitle.textContent = roomdata[0].roomname
+    } else {
+        roomtoptitle.textContent = "当前房间已被解散"
+    }
 });
 
 //客户端发送消息时触发
@@ -206,6 +220,10 @@ function hidePop2() {
 //用于检测输入是否有空白符
 function hasWhiteSpace(str) {
     return /\s/g.test(str);
+}
+
+function changeRoomTitle() {
+    socket.emit("roomtitle", JSON.stringify(token))
 }
 
 //退出登录点击事件
@@ -478,6 +496,7 @@ socket.on("roomlist", (roomdata) => {
                                     output[0].removeChild(output[0].firstChild);
                                 }
                                 socket.emit("login", JSON.stringify(token))
+                                changeRoomTitle()
                                 hidePop2()
                                 hidePop()
                             } else {
@@ -494,6 +513,7 @@ socket.on("roomlist", (roomdata) => {
                     }
                     socket.emit("login", JSON.stringify(token))
                     hidePop()
+                    changeRoomTitle()
                 }
             });     
         }

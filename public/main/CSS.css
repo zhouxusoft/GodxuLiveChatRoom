@@ -16,12 +16,24 @@ body {
 .top {
     margin: auto;
     background-color: bisque;
-    padding: 16px;
+    padding: 10px 0 0;
     font-size: 24px;
     width: 300px;
-    border-radius: 6px;
+    border-radius: 6px 6px 0 0;
     text-align: center;  
     color: royalblue;
+    letter-spacing: 3px;
+}
+
+.top2 {
+    margin: auto;
+    background-color: bisque;
+    padding: 0 0 5px;
+    font-size: 14px;
+    width: 300px;
+    border-radius: 0 0 6px 6px;
+    text-align: center;  
+    color: rgba(255, 0, 0, 0.4);
     letter-spacing: 3px;
 }
 

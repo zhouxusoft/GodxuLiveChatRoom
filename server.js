@@ -117,6 +117,16 @@ io.on('connection', (socket) => {
             socket.emit("myroom", results)
         })
     })
+
+    //修改房间标题
+    socket.on('roomtitle', (token) => {
+        token = JSON.parse(token)
+        const sql = `SELECT * FROM roomtable WHERE id=?`
+        db.query(sql, token.room, (err, results) => {
+            if (err) return err;
+            socket.emit("roomtitle", results)
+        })
+    })
 });
 
 //启动服务器

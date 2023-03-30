@@ -432,6 +432,14 @@ hr {
     padding: 4px;
 }
 
+.roomdel {
+    font-size: 14px;
+    width: 40px;
+    height: 25px;
+    margin: 3px 5px;
+    padding: 4px;
+}
+
 .overlay2 {
     position: fixed;
     top: 0;

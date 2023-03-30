@@ -71,6 +71,42 @@ io.on('connection', (socket) => {
             socket.emit("roomlist", results)
         })
     });
+
+    //点击我的房间时触发
+    socket.on('myroom', (token) => {
+        token = JSON.parse(token)
+        const sql = `SELECT * FROM roomtable WHERE createrid=?`
+        db.query(sql, token.id, (err, results) => {
+            if (err) return err;
+            socket.emit("myroom", results)
+        })
+    })
+
+    //删除房间时触发
+    socket.on('delroom', (roomdata) => {
+        roomdata = JSON.parse(roomdata)
+        const sql = `DELETE FROM roomtable WHERE id=?`
+        db.query(sql, roomdata.id, (err, results) => {
+            if (err) return err;
+            const sql = `SELECT * FROM roomtable WHERE createrid=?`
+            db.query(sql, roomdata.createrid, (err, results) => {
+                if (err) return err;
+                socket.emit("myroom", results)
+            })
+        })
+    })
+
+    //创建房间时触发
+    socket.on('createroom', (createrinfo) => {
+        createrinfo = JSON.parse(createrinfo)
+        const sql = `INSERT INTO roomtable SET ?`
+        db.query(sql, {
+            createrid: createrinfo.createrid,
+            roomname: createrinfo.roomname,
+            password: createrinfo.password}, (err, results) => {
+                if (err) return err;
+        })
+    })
 });
 
 //启动服务器

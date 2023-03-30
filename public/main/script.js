@@ -350,17 +350,68 @@ changeroom.addEventListener("click", function () {
         </div>
         <div class="roomlist"></div>
         <div class="roomhead">
-            <button class="roombtn">创建房间</button>
-            <button class="roombtn">我创建的</button>
+            <button class="roombtn" id="createroom">创建房间</button>
+            <button class="roombtn" id="myroom">我创建的</button>
         </div>`
     socket.emit("roomlist", JSON.stringify(token))
-    
+    let myroom = document.getElementById("myroom")
+    let createroom = document.getElementById("createroom")
+    myroom.addEventListener("click", function() {
+        if (myroom.textContent == '我创建的') {
+            socket.emit("myroom", JSON.stringify(token))
+            myroom.textContent = '所有房间'
+        } else {
+            socket.emit('roomlist', JSON.stringify(token))
+            myroom.textContent = '我创建的'
+        }
+    });
+    createroom.addEventListener("click", function () {
+        showPop2()
+        pop2.innerHTML += 
+            `<form action="" id="createroomForm">
+            <div class="changeinfo">房间名称</div>
+            <input class="roominput" placeholder="不超过七个字符" name="roomname" autocomplete="off">
+            <div class="changeinfo">房间密码</div>
+            <input class="roominput" placeholder="可以为空" name="roompassword" autocomplete="off">
+            <button class="makesurechange" type="submit">确认创建</button>
+            <div class="clear"></div>
+            </form>`
+        const createroomForm = document.getElementById("createroomForm")
+        createroomForm.addEventListener('submit', function (e) {
+            e.preventDefault()
+            if (this.roomname.value) {
+                //判断是否再7个字符之内
+                const length = new RegExp('(^.{1,7}$)')
+                if (length.test(this.roomname.value) && !hasWhiteSpace(this.roomname.value)) {
+                    const createrinfo = {
+                        createrid: token.id,
+                        roomname: this.roomname.value,
+                        password: this.roompassword.value
+                    }
+                    socket.emit("createroom", JSON.stringify(createrinfo))
+                    hidePop2()
+                    alert("创建成功")
+                    if (myroom.textContent == '我创建的') { 
+                        socket.emit('roomlist', JSON.stringify(token))
+                    } else {
+                        socket.emit("myroom", JSON.stringify(token))
+                    } 
+                } else {
+                    alert("房间名称不合法")
+                }
+            }
+        });
+    });
 });
 
 socket.on("roomlist", (roomdata) => {
     //console.log(roomdata)
     let roomlist =  document.getElementsByClassName("roomlist")[0]
-    if (roomdata) {
+    //每打开一次 其内部的元素都应该重新加载一遍
+    while (roomlist.firstChild) {  
+        roomlist.removeChild(roomlist.firstChild);
+    }
+    if (roomdata.length > 0) {
         for (let i = 0; i < roomdata.length; i++) {
             let lock = "\uf3c1"
             if (roomdata[i].password) {
@@ -422,5 +473,59 @@ socket.on("roomlist", (roomdata) => {
                 }
             });     
         }
+    } else {
+        roomlist.innerHTML += 
+            `<div class="roombox">
+                <div class="roomname">无结果</div>
+            </div>`  
+    }
+});
+
+socket.on("myroom", (roomdata) => {
+    //console.log(roomdata)
+    let roomlist =  document.getElementsByClassName("roomlist")[0]
+    //每打开一次 其内部的元素都应该重新加载一遍
+    while (roomlist.firstChild) {  
+        roomlist.removeChild(roomlist.firstChild);
+    }
+    if (roomdata.length > 0) {
+        for (let i = 0; i < roomdata.length; i++) {
+            let lock = "\uf3c1"
+            if (roomdata[i].password) {
+                lock = "\uf023"
+            }
+            roomlist.innerHTML += 
+                `<div class="roombox">
+                    <div class="roomname">${roomdata[i].roomname}</div>
+                    <div class="roomlock">${lock}</div>
+                    <div class="roombtn roomdel" id="${i}">解散</div>
+                </div>`  
+        }
+        let roombtns = document.getElementsByClassName("roomdel")
+        for (let i = 0; i < roombtns.length; i++) {
+            roombtns[i].addEventListener("click", () => {
+                showPop2()
+                pop2.innerHTML += 
+                    `<div class="exit">是否确认解散</div>
+                    <div class="makesure">
+                        <button class="makesurebtn" type="submit" id="yesroomdel">确认</button>
+                        <button class="makesurebtn" type="button" id="noroomdel">取消</button>
+                    </div>`
+                let yesroomdel = document.getElementById("yesroomdel")
+                let noroomdel = document.getElementById("noroomdel")
+                yesroomdel.addEventListener("click", function () {
+                    socket.emit("delroom", JSON.stringify(roomdata[i]))
+                    hidePop2()
+                });
+                noroomdel.addEventListener("click", function () {
+                    hidePop2()
+                });
+            });
+        }   
+    } else {
+        roomlist.innerHTML += 
+            `<div class="roombox">
+                <div class="roomname">无结果</div>
+            </div>`
     }
 });

@@ -346,7 +346,7 @@ changeroom.addEventListener("click", function () {
     pop.innerHTML += 
         `<div class="roomhead">
             <div class="roomtitle">房间列表</div>
-            <button class="roombtn">搜索房间</button>
+            <button class="roombtn" id="searchroom">搜索房间</button>
         </div>
         <div class="roomlist"></div>
         <div class="roomhead">
@@ -356,6 +356,7 @@ changeroom.addEventListener("click", function () {
     socket.emit("roomlist", JSON.stringify(token))
     let myroom = document.getElementById("myroom")
     let createroom = document.getElementById("createroom")
+    let searchroom = document.getElementById("searchroom")
     myroom.addEventListener("click", function() {
         if (myroom.textContent == '我创建的') {
             socket.emit("myroom", JSON.stringify(token))
@@ -402,6 +403,29 @@ changeroom.addEventListener("click", function () {
             }
         });
     });
+    searchroom.addEventListener("click", function () {
+        showPop2()
+        pop2.innerHTML += 
+            `<div class="roomtitle">搜索房间</div>
+            <form action="" id="searchroomForm">
+            <input class="roominput" name="searchroominput" autocomplete="off">
+            <div class="makesure">
+                <button class="makesurebtn" type="submit" id="yessearchroom">确认</button>
+                <button class="makesurebtn" type="button" id="nosearchroom">取消</button>
+            </div>
+            </form>`
+        let searchroomForm = document.getElementById("searchroomForm")
+        let nosearchroom = document.getElementById("nosearchroom")
+        searchroomForm.addEventListener('submit', function (e) {
+            e.preventDefault()
+            hidePop2()
+            socket.emit('searchroom', this.searchroominput.value)    
+            myroom.textContent = "显示全部"
+        });
+        nosearchroom.addEventListener("click", function () {
+            hidePop2()
+        });
+    })
 });
 
 socket.on("roomlist", (roomdata) => {

@@ -107,6 +107,16 @@ io.on('connection', (socket) => {
                 if (err) return err;
         })
     })
+
+    //查询房间触发
+    socket.on('searchroom', (searchinfo) => {
+        searchinfo = "%" + searchinfo + "%"
+        const sql = `SELECT * FROM roomtable WHERE roomname LIKE ?`
+        db.query(sql, searchinfo, (err, results) => {
+            if (err) return err;
+            socket.emit("myroom", results)
+        })
+    })
 });
 
 //启动服务器

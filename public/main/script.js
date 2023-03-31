@@ -353,7 +353,7 @@ sendfile.addEventListener("click", function () {
     showPop()
 });
 
-//发送图片点击事件
+//发送图片点击事件 调用超星的文件上传接口
 sendimg.addEventListener("click", function () {
     showPop()
 });

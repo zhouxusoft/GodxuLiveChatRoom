@@ -118,7 +118,7 @@ io.on('connection', (socket) => {
         const sql = `SELECT * FROM roomtable WHERE roomname LIKE ?`
         db.query(sql, searchinfo, (err, results) => {
             if (err) return err;
-            socket.emit("myroom", results)
+            socket.emit("roomlist", results)
         })
     })
 

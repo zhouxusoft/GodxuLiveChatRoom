@@ -222,6 +222,7 @@ function hasWhiteSpace(str) {
     return /\s/g.test(str);
 }
 
+//用于更改切换房间后的房间名显示
 function changeRoomTitle() {
     socket.emit("roomtitle", JSON.stringify(token))
 }
@@ -355,7 +356,42 @@ sendfile.addEventListener("click", function () {
 
 //发送图片点击事件 调用超星的文件上传接口
 sendimg.addEventListener("click", function () {
-    showPop()
+    var fileInput = document.createElement('input');
+
+    fileInput.type = 'file';
+    fileInput.name = 'img';
+    fileInput.accept = 'image/bmp,image/heic,image/heif,image/jpeg,image/png,image/tiff,image/webp,image/x-icon'
+    
+    fileInput.onchange = function() {
+        var file = this.files[0];
+        console.log(file.name)
+        console.log(file.size)
+        console.log(file.type)
+        console.log(file.lastModified)
+
+        let formData = new FormData()
+        // 将文件对象添加到formData对象中
+        formData.append('file', file)
+        formData.append('name', file.name)
+        formData.append('_token', '99ad00c891d3e9e9bc9a613314ef9890')
+        formData.append('puid', '198665227')
+
+	    console.log(formData.get("file"))
+
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let resData = JSON.parse(this.response)
+                imgbox.innerHTML += `<img src="${resData.data.previewUrl}" width="200" referrerPolicy="no-referrer">`
+                alert(resData.msg)
+                alert(resData.data.puid)
+            }
+        };
+        xhr.open('POST', 'http://pan-yz.chaoxing.com/upload/uploadfile?fldid=848684910924488704', true)
+        xhr.send(formData)
+    };
+    //自动触发input的点击事件
+    fileInput.click();
 });
 
 //修改房间点击事件
@@ -450,7 +486,7 @@ socket.on("roomlist", (roomdata) => {
     //console.log(roomdata)
     let roomlist =  document.getElementsByClassName("roomlist")[0]
     //每打开一次 其内部的元素都应该重新加载一遍
-    while (roomlist.firstChild) {  
+    while (roomlist.firstChild) {
         roomlist.removeChild(roomlist.firstChild);
     }
     if (roomdata.length > 0) {

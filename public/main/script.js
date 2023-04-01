@@ -363,32 +363,61 @@ sendimg.addEventListener("click", function () {
     fileInput.accept = 'image/bmp,image/heic,image/heif,image/jpeg,image/png,image/tiff,image/webp,image/x-icon'
     
     fileInput.onchange = function() {
-        var file = this.files[0];
+        let file = this.files[0];
         console.log(file.name)
         console.log(file.size)
         console.log(file.type)
         console.log(file.lastModified)
 
-        let formData = new FormData()
-        // 将文件对象添加到formData对象中
-        formData.append('file', file)
-        formData.append('name', file.name)
-        formData.append('_token', '99ad00c891d3e9e9bc9a613314ef9890')
-        formData.append('puid', '198665227')
+        //选择好图片后进入预览，选择是否发送
+        showPop()
+        pop.innerHTML += `
+            <div class="makesuresendimage">是否确认发送</div>
+            <div class="imgbox">
+                <img id="myimg">
+            </div>
+            <div class="makesure">
+                <div class="makesurebtn" id="yesbtn">确认</div>
+                <div class="makesurebtn" id="nobtn">取消</div>
+            </div>`;
+        //本地获取要发送的图片 显示在dom中
+        const reader = new FileReader();
+        reader.addEventListener("load", function () {
+            // 将文件转换为base64编码的字符串
+            const imageDataUrl = reader.result;
+            // 获取img元素并设置src属性
+            const imgElement = document.getElementById("myimg");
+            imgElement.src = imageDataUrl;
+        });
+        reader.readAsDataURL(file);
+        let yesbtn = document.getElementById("yesbtn");
+        let nobtn = document.getElementById("nobtn");
+        //点击确认发送
+        yesbtn.addEventListener("click", function () {
+            hidePop()
+            let formData = new FormData()
+            // 将文件对象添加到formData对象中
+            formData.append('file', file)
+            formData.append('name', file.name)
+            formData.append('_token', '99ad00c891d3e9e9bc9a613314ef9890')
+            formData.append('puid', '198665227')
 
-	    console.log(formData.get("file"))
+            console.log(formData.get("file"))
 
-        let xhr = new XMLHttpRequest()
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                let resData = JSON.parse(this.response)
-                imgbox.innerHTML += `<img src="${resData.data.previewUrl}" width="200" referrerPolicy="no-referrer">`
-                alert(resData.msg)
-                alert(resData.data.puid)
-            }
-        };
-        xhr.open('POST', 'http://pan-yz.chaoxing.com/upload/uploadfile?fldid=848684910924488704', true)
-        xhr.send(formData)
+            let xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    let resData = JSON.parse(this.response)
+                    imgbox.innerHTML += `<img src="${resData.data.previewUrl}" width="200" referrerPolicy="no-referrer">`
+                    alert(resData.msg)
+                }
+            };
+            xhr.open('POST', 'http://pan-yz.chaoxing.com/upload/uploadfile?fldid=848684910924488704', true)
+            xhr.send(formData)
+        });
+        nobtn.addEventListener("click", function () {
+            hidePop()
+        });
     };
     //自动触发input的点击事件
     fileInput.click();

@@ -137,7 +137,7 @@ socket.on('message', (message) => {
             }
             zoom = mediumZoom('[data-zoomable]', {
                 margin: 24,
-                background: '#ffffff11',
+                background: 'rgba(25, 18, 25, 0.9)',
             })
         } else {
             if (data.userid == token.id) {

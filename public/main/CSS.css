@@ -11,6 +11,7 @@ body {
     align-items: center;
     background-color: cadetblue;
     height: 100%;
+    overflow: hidden;
 }
 
 .medium-zoom-overlay,
@@ -139,7 +140,6 @@ hr {
     border-radius: 5px;
     overflow: hidden;
     width: fit-content;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .myimg {
@@ -168,7 +168,6 @@ hr {
     border-radius: 5px;
     overflow: hidden;
     width: fit-content;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .box {

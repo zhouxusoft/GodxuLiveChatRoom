@@ -18,6 +18,7 @@ const socket = io('http://127.0.0.1:30018', {
 let output = document.getElementsByClassName("output");
 let header = document.getElementsByClassName("header");
 let menu = document.getElementsByClassName("menu");
+let zoom = mediumZoom('[data-zoomable]')
 
 //获取输入框，用于判断其内部的内容
 //获取发送按钮
@@ -57,14 +58,14 @@ btndown[0].addEventListener("click", function () {
             output[0].style.height = "420px"
             menu[0].style.height = "57px"
         }
-    }  
+    }
 });
 
 //客户端连接成功后触发
 socket.on('connect', () => {
     //将连接着的昵称传到服务端
     socket.emit('login', JSON.stringify(token))
-    while (output[0].firstChild) {  
+    while (output[0].firstChild) {
         output[0].removeChild(output[0].firstChild);
     }
 });
@@ -121,19 +122,23 @@ socket.on('message', (message) => {
                         <div class="senduser">${data.nickname}</div>
                     </div>
                     <div class="selfmessageimg">
-                        <img class="myimg" src="${data.message}" referrerPolicy="no-referrer">
+                        <img class="myimg" data-zoomable data-zoom-src="${data.message}" src="${data.message}" referrerPolicy="no-referrer">
                     </div>
                     <div class="clear"></div>`;
             } else {
-                output[0].innerHTML += 
+                output[0].innerHTML +=
                     `<div class="usertimebox">
                         <div class="senduser">${data.nickname}</div>
                         <div class="sendtime">${data.time}</div>
                     </div>
                     <div class="othermessageimg">
-                        <img class="myimg" src="${data.message}" referrerPolicy="no-referrer">
+                        <img class="myimg" data-zoomable data-zoom-src="${data.message}" src="${data.message}" referrerPolicy="no-referrer">
                     </div>`;
             }
+            zoom = mediumZoom('[data-zoomable]', {
+                margin: 24,
+                background: '#ffffff11',
+            })
         } else {
             if (data.userid == token.id) {
                 output[0].innerHTML +=
@@ -144,7 +149,7 @@ socket.on('message', (message) => {
                     <div class="selfmessage">${data.message}</div>
                     <div class="clear"></div>`;
             } else {
-                output[0].innerHTML += 
+                output[0].innerHTML +=
                     `<div class="usertimebox">
                         <div class="senduser">${data.nickname}</div>
                         <div class="sendtime">${data.time}</div>
@@ -153,7 +158,7 @@ socket.on('message', (message) => {
             }
         }
         output[0].scrollTop = output[0].scrollHeight;
-    } 
+    }
 });
 
 //服务端返回房间名
@@ -169,7 +174,7 @@ socket.on('roomtitle', (roomdata) => {
 sendForm.addEventListener('submit', function (e) {
     e.preventDefault()
     date = new Date().toLocaleString()
-    let toSend = { userid: token.id, nickname: token.nickname, message: this.tosend.value, time: date, room: token.room}
+    let toSend = { userid: token.id, nickname: token.nickname, message: this.tosend.value, time: date, room: token.room }
     if (toSend.message) {
         socket.emit('message', JSON.stringify(toSend))
     }
@@ -194,7 +199,7 @@ let changeroom = document.getElementById("changeroom");
 //显示/关闭弹窗
 function showPop() {
     //每打开一次 其内部的元素都应该重新加载一遍
-    while (pop.firstChild) {  
+    while (pop.firstChild) {
         pop.removeChild(pop.firstChild);
     }
     pop.style.display = "block";
@@ -207,18 +212,11 @@ function showPop() {
             hidePop();
         }
     });
-
-    // //添加并获取关闭按钮 注册监听事件
-    // pop.innerHTML += `<div class="closebtn"></div>`;
-    // let closebtn = pop.querySelector(".closebtn");
-    // closebtn.addEventListener("click", function () {
-    //     hidePop()
-    // });
 }
 
 function showPop2() {
     //每打开一次 其内部的元素都应该重新加载一遍
-    while (pop2.firstChild) {  
+    while (pop2.firstChild) {
         pop2.removeChild(pop2.firstChild);
     }
     pop2.style.display = "block";
@@ -276,7 +274,7 @@ exit.addEventListener("click", function () {
 //修改信息点击事件
 changeinfo.addEventListener("click", function () {
     showPop()
-    pop.innerHTML += 
+    pop.innerHTML +=
         `<form action="" id="changenameForm">
         <div class="changeinfo">修改昵称</div>
         <input class="changeinfoinput" placeholder="${token.nickname}" name="nickname" autocomplete="off">
@@ -314,25 +312,26 @@ changeinfo.addEventListener("click", function () {
                             token.nickname = data.nickname
                             localStorage.clear()
                             localStorage.setItem("token", JSON.stringify({
-                                "id":3,
-                                "username":token.nickname,
-                                "password":"",
-                                "nickname":token.nickname}))
-                            let changeinfoinput= document.getElementsByClassName("changeinfoinput")[0]
+                                "id": 3,
+                                "username": token.nickname,
+                                "password": "",
+                                "nickname": token.nickname
+                            }))
+                            let changeinfoinput = document.getElementsByClassName("changeinfoinput")[0]
                             changeinfoinput.value = ""
                             changeinfoinput.placeholder = token.nickname
                             alert("修改成功！\n注意: 昵称修改不会影响用户名,登录时请使用用户名")
                         } else {
                             alert(resData.message)
                         }
-                    } 
+                    }
                 }
                 xhr.open('POST', 'http://localhost:30017/api/changeNickname', true)
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
                 xhr.send(formData)
             } else {
                 alert("昵称不合法")
-            } 
+            }
         }
     })
     const changepasswordForm = document.getElementById("changepasswordForm")
@@ -373,7 +372,7 @@ changeinfo.addEventListener("click", function () {
                 alert("密码长度小于6位或含有非法字符")
             }
         }
-    })  
+    })
 });
 
 //发送文件点击事件
@@ -388,8 +387,8 @@ sendimg.addEventListener("click", function () {
     fileInput.type = 'file';
     fileInput.name = 'img';
     fileInput.accept = 'image/bmp,image/heic,image/heif,image/jpeg,image/png,image/tiff,image/webp,image/x-icon'
-    
-    fileInput.onchange = function() {
+
+    fileInput.onchange = function () {
         let file = this.files[0];
         console.log(file.name)
         console.log(file.size)
@@ -432,11 +431,11 @@ sendimg.addEventListener("click", function () {
             console.log(formData.get("file"))
 
             let xhr = new XMLHttpRequest()
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                     let resData = JSON.parse(this.response)
                     let imgmessage = "$img$src=" + resData.data.previewUrl
-                    let toSend = { userid: token.id, nickname: token.nickname, message: imgmessage, time: date, room: token.room}
+                    let toSend = { userid: token.id, nickname: token.nickname, message: imgmessage, time: date, room: token.room }
                     if (toSend.message) {
                         socket.emit('message', JSON.stringify(toSend))
                     }
@@ -456,7 +455,7 @@ sendimg.addEventListener("click", function () {
 //修改房间点击事件
 changeroom.addEventListener("click", function () {
     showPop()
-    pop.innerHTML += 
+    pop.innerHTML +=
         `<div class="roomhead">
             <div class="roomtitle">房间列表</div>
             <button class="roombtn" id="searchroom">搜索房间</button>
@@ -470,7 +469,7 @@ changeroom.addEventListener("click", function () {
     let myroom = document.getElementById("myroom")
     let createroom = document.getElementById("createroom")
     let searchroom = document.getElementById("searchroom")
-    myroom.addEventListener("click", function() {
+    myroom.addEventListener("click", function () {
         if (myroom.textContent == '我创建的') {
             socket.emit("myroom", JSON.stringify(token))
             myroom.textContent = '所有房间'
@@ -481,7 +480,7 @@ changeroom.addEventListener("click", function () {
     });
     createroom.addEventListener("click", function () {
         showPop2()
-        pop2.innerHTML += 
+        pop2.innerHTML +=
             `<form action="" id="createroomForm">
             <div class="changeinfo">房间名称</div>
             <input class="roominput" placeholder="不超过七个字符" name="roomname" autocomplete="off">
@@ -505,11 +504,11 @@ changeroom.addEventListener("click", function () {
                     socket.emit("createroom", JSON.stringify(createrinfo))
                     hidePop2()
                     alert("创建成功")
-                    if (myroom.textContent == '我创建的') { 
+                    if (myroom.textContent == '我创建的') {
                         socket.emit('roomlist', JSON.stringify(token))
                     } else {
                         socket.emit("myroom", JSON.stringify(token))
-                    } 
+                    }
                 } else {
                     alert("房间名称不合法")
                 }
@@ -518,7 +517,7 @@ changeroom.addEventListener("click", function () {
     });
     searchroom.addEventListener("click", function () {
         showPop2()
-        pop2.innerHTML += 
+        pop2.innerHTML +=
             `<div class="roomtitle">搜索房间</div>
             <form action="" id="searchroomForm">
             <input class="roominput" name="searchroominput" autocomplete="off">
@@ -532,7 +531,7 @@ changeroom.addEventListener("click", function () {
         searchroomForm.addEventListener('submit', function (e) {
             e.preventDefault()
             hidePop2()
-            socket.emit('searchroom', this.searchroominput.value)    
+            socket.emit('searchroom', this.searchroominput.value)
             myroom.textContent = "显示全部"
         });
         nosearchroom.addEventListener("click", function () {
@@ -543,7 +542,7 @@ changeroom.addEventListener("click", function () {
 
 socket.on("roomlist", (roomdata) => {
     //console.log(roomdata)
-    let roomlist =  document.getElementsByClassName("roomlist")[0]
+    let roomlist = document.getElementsByClassName("roomlist")[0]
     //每打开一次 其内部的元素都应该重新加载一遍
     while (roomlist.firstChild) {
         roomlist.removeChild(roomlist.firstChild);
@@ -554,19 +553,19 @@ socket.on("roomlist", (roomdata) => {
             if (roomdata[i].password) {
                 lock = "\uf023"
             }
-            roomlist.innerHTML += 
+            roomlist.innerHTML +=
                 `<div class="roombox">
                     <div class="roomname">${roomdata[i].roomname}</div>
                     <div class="roomlock">${lock}</div>
                     <div class="roombtn roomjoin" id="${i}">加入</div>
-                </div>`  
+                </div>`
         }
         let roombtns = document.getElementsByClassName("roomjoin")
         for (let i = 0; i < roombtns.length; i++) {
             roombtns[i].addEventListener("click", () => {
                 if (roomdata[i].password) {
                     showPop2()
-                    pop2.innerHTML += 
+                    pop2.innerHTML +=
                         `<div class="roomtitle">输入密码</div>
                         <form action="" id="roompasswordForm">
                         <input class="roominput" name="roompassword" autocomplete="off">
@@ -587,7 +586,7 @@ socket.on("roomlist", (roomdata) => {
                                 //修改目前所在房间的id值
                                 token.room = roomdata[i].id
                                 localStorage.setItem("token", JSON.stringify(token))
-                                while (output[0].firstChild) {  
+                                while (output[0].firstChild) {
                                     output[0].removeChild(output[0].firstChild);
                                 }
                                 socket.emit("login", JSON.stringify(token))
@@ -603,28 +602,28 @@ socket.on("roomlist", (roomdata) => {
                     //修改目前所在房间的id值
                     token.room = roomdata[i].id
                     localStorage.setItem("token", JSON.stringify(token))
-                    while (output[0].firstChild) {  
+                    while (output[0].firstChild) {
                         output[0].removeChild(output[0].firstChild);
                     }
                     socket.emit("login", JSON.stringify(token))
                     hidePop()
                     changeRoomTitle()
                 }
-            });     
+            });
         }
     } else {
-        roomlist.innerHTML += 
+        roomlist.innerHTML +=
             `<div class="roombox">
                 <div class="roomname">无结果</div>
-            </div>`  
+            </div>`
     }
 });
 
 socket.on("myroom", (roomdata) => {
     //console.log(roomdata)
-    let roomlist =  document.getElementsByClassName("roomlist")[0]
+    let roomlist = document.getElementsByClassName("roomlist")[0]
     //每打开一次 其内部的元素都应该重新加载一遍
-    while (roomlist.firstChild) {  
+    while (roomlist.firstChild) {
         roomlist.removeChild(roomlist.firstChild);
     }
     if (roomdata.length > 0) {
@@ -633,18 +632,18 @@ socket.on("myroom", (roomdata) => {
             if (roomdata[i].password) {
                 lock = "\uf023"
             }
-            roomlist.innerHTML += 
+            roomlist.innerHTML +=
                 `<div class="roombox">
                     <div class="roomname">${roomdata[i].roomname}</div>
                     <div class="roomlock">${lock}</div>
                     <div class="roombtn roomdel" id="${i}">解散</div>
-                </div>`  
+                </div>`
         }
         let roombtns = document.getElementsByClassName("roomdel")
         for (let i = 0; i < roombtns.length; i++) {
             roombtns[i].addEventListener("click", () => {
                 showPop2()
-                pop2.innerHTML += 
+                pop2.innerHTML +=
                     `<div class="exit">是否确认解散</div>
                     <div class="makesure">
                         <button class="makesurebtn" type="submit" id="yesroomdel">确认</button>
@@ -660,11 +659,16 @@ socket.on("myroom", (roomdata) => {
                     hidePop2()
                 });
             });
-        }   
+        }
     } else {
-        roomlist.innerHTML += 
+        roomlist.innerHTML +=
             `<div class="roombox">
                 <div class="roomname">无结果</div>
             </div>`
     }
 });
+
+//添加滚动事件 退出图片预览
+document.body.addEventListener("wheel", () => {
+    zoom.close()
+})

@@ -108,22 +108,49 @@ socket.on('message', (message) => {
     let data = JSON.parse(message)
     //检测房间状态
     changeRoomTitle()
+
+    //判断用户是否在房间内
     if (data.room == token.room) {
-        if (data.userid == token.id) {
-            output[0].innerHTML +=
-                `<div class="usertimebox">
-                    <div class="sendtime">${data.time}</div>
-                    <div class="senduser">${data.nickname}</div>
-                </div>
-                <div class="selfmessage">${data.message}</div>
-                <div class="clear"></div>`;
+        //判断消息是否为图片
+        if (data.message.startsWith("$img$src=")) {
+            data.message = data.message.slice(9)
+            if (data.userid == token.id) {
+                output[0].innerHTML +=
+                    `<div class="usertimebox">
+                        <div class="sendtime">${data.time}</div>
+                        <div class="senduser">${data.nickname}</div>
+                    </div>
+                    <div class="selfmessageimg">
+                        <img class="myimg" src="${data.message}" referrerPolicy="no-referrer">
+                    </div>
+                    <div class="clear"></div>`;
+            } else {
+                output[0].innerHTML += 
+                    `<div class="usertimebox">
+                        <div class="senduser">${data.nickname}</div>
+                        <div class="sendtime">${data.time}</div>
+                    </div>
+                    <div class="othermessageimg">
+                        <img class="myimg" src="${data.message}" referrerPolicy="no-referrer">
+                    </div>`;
+            }
         } else {
-            output[0].innerHTML += 
-                `<div class="usertimebox">
-                    <div class="senduser">${data.nickname}</div>
-                    <div class="sendtime">${data.time}</div>
-                </div>
-                <div class="othermessage">${data.message}</div>`;
+            if (data.userid == token.id) {
+                output[0].innerHTML +=
+                    `<div class="usertimebox">
+                        <div class="sendtime">${data.time}</div>
+                        <div class="senduser">${data.nickname}</div>
+                    </div>
+                    <div class="selfmessage">${data.message}</div>
+                    <div class="clear"></div>`;
+            } else {
+                output[0].innerHTML += 
+                    `<div class="usertimebox">
+                        <div class="senduser">${data.nickname}</div>
+                        <div class="sendtime">${data.time}</div>
+                    </div>
+                    <div class="othermessage">${data.message}</div>`;
+            }
         }
         output[0].scrollTop = output[0].scrollHeight;
     } 
@@ -408,8 +435,11 @@ sendimg.addEventListener("click", function () {
             xhr.onreadystatechange = function() {
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                     let resData = JSON.parse(this.response)
-                    imgbox.innerHTML += `<img src="${resData.data.previewUrl}" width="200" referrerPolicy="no-referrer">`
-                    alert(resData.msg)
+                    let imgmessage = "$img$src=" + resData.data.previewUrl
+                    let toSend = { userid: token.id, nickname: token.nickname, message: imgmessage, time: date, room: token.room}
+                    if (toSend.message) {
+                        socket.emit('message', JSON.stringify(toSend))
+                    }
                 }
             };
             xhr.open('POST', 'http://pan-yz.chaoxing.com/upload/uploadfile?fldid=848684910924488704', true)

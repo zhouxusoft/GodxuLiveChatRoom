@@ -390,10 +390,10 @@ sendimg.addEventListener("click", function () {
 
     fileInput.onchange = function () {
         let file = this.files[0];
-        console.log(file.name)
-        console.log(file.size)
-        console.log(file.type)
-        console.log(file.lastModified)
+        // console.log(file.name)
+        // console.log(file.size)
+        // console.log(file.type)
+        // console.log(file.lastModified)
 
         //选择好图片后进入预览，选择是否发送
         showPop()

@@ -298,7 +298,7 @@ hr {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
     /* 设置为一个较高的值，确保遮罩层覆盖在其他元素之上 */
     display: none;

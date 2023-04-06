@@ -375,7 +375,7 @@ changeinfo.addEventListener("click", function () {
     })
 });
 
-//发送文件点击事件 调用超星的文件上传接口 
+//发送文件点击事件 调用超星的文件上传接口  
 sendfile.addEventListener("click", function () {
     showPop()
 });

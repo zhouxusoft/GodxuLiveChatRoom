@@ -377,7 +377,64 @@ changeinfo.addEventListener("click", function () {
 
 //发送文件点击事件 调用超星的文件上传接口  
 sendfile.addEventListener("click", function () {
-    showPop()
+    var fileInput = document.createElement('input');
+
+    fileInput.type = 'file';
+    fileInput.name = 'file';
+
+    fileInput.onchange = function () {
+        let file = this.files[0];
+        console.log(file.name)
+        // console.log(file.size)
+        console.log(file.type)
+        // console.log(file.lastModified)
+
+        //选择好图片后进入预览，选择是否发送
+        showPop()
+        pop.innerHTML += `
+            <div class="makesuresendimage">是否确认发送</div>
+            <div class="filebox">
+                1.py
+            </div>
+            <div class="makesure">
+                <div class="makesurebtn" id="yesbtn">确认</div>
+                <div class="makesurebtn" id="nobtn">取消</div>
+            </div>`;
+        
+        let yesbtn = document.getElementById("yesbtn");
+        let nobtn = document.getElementById("nobtn");
+        //点击确认发送
+        yesbtn.addEventListener("click", function () {
+            hidePop()
+            let formData = new FormData()
+            // 将文件对象添加到formData对象中
+            formData.append('file', file)
+            formData.append('name', file.name)
+            formData.append('_token', '99ad00c891d3e9e9bc9a613314ef9890')
+            formData.append('puid', '198665227')
+
+            console.log(formData.get("file"))
+
+            let xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    let resData = JSON.parse(this.response)
+                    let filemessage = "$file$src=" + resData.data.objectId
+                    let toSend = { userid: token.id, nickname: token.nickname, message: filemessage, time: date, room: token.room }
+                    if (toSend.message) {
+                        socket.emit('message', JSON.stringify(toSend))
+                    }
+                }
+            };
+            xhr.open('POST', 'http://pan-yz.chaoxing.com/upload/uploadfile?fldid=851576482269757440', true)
+            xhr.send(formData)
+        });
+        nobtn.addEventListener("click", function () {
+            hidePop()
+        });
+    };
+    //自动触发input的点击事件
+    fileInput.click();
 });
 
 //发送图片点击事件 调用超星的文件上传接口

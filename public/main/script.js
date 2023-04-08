@@ -427,7 +427,7 @@ sendfile.addEventListener("click", function () {
                     }
                 }
             };
-            xhr.open('POST', 'http://pan-yz.chaoxing.com/upload/uploadfile?fldid=851576482269757440', true)
+            xhr.open('POST', 'http ://pan-yz.chaoxing.com/upload/uploadfile?fldid=851576482269757440', true)
             xhr.send(formData)
             let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/505df2d6a0f4e87b8f749db141156542';
             if(downloadUrl) {

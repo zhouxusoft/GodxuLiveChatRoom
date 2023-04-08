@@ -543,3 +543,31 @@ hr {
     margin: 0 auto 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+.filebox {
+    text-align: center;
+    width: 200px;
+    border: 2px solid skyblue;
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 15px;
+}
+
+.filename {
+    color: rgba(255, 0, 0, 0.4);
+    font-size: 15px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    width: fit-content;
+    max-width: 140px;
+    display: inline-block;
+    font-weight: lighter;
+}
+
+.filelogo {
+    font-size: 32px;
+    font-family: fontAwesome;
+    color: rgba(255, 0, 0, 0.4);
+    width: 35px;
+    display: inline-block;
+}

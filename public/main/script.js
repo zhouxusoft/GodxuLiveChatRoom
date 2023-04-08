@@ -394,7 +394,8 @@ sendfile.addEventListener("click", function () {
         pop.innerHTML += `
             <div class="makesuresendimage">是否确认发送</div>
             <div class="filebox">
-                1.py
+                <div class="filelogo">\uf15b</div>
+                <div class="filename">${file.name}</div>
             </div>
             <div class="makesure">
                 <div class="makesurebtn" id="yesbtn">确认</div>

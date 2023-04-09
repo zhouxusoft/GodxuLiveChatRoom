@@ -155,10 +155,7 @@ socket.on('message', (message) => {
                 // console.log(imgshowheight[i])
                 myimg[i].height = imgshowheight[i]
             }
-            zoom = mediumZoom('[data-zoomable]', {
-                margin: 24,
-                background: 'rgba(25, 18, 25, 0.9)',
-            })
+            
         } else if (data.message.startsWith("$file$name=")) {
             filesrc.push(data.message.split("$src=")[1])
             data.message = data.message.match(/\$file\$name=([\s\S]*?)\$src=/)[1]
@@ -229,6 +226,10 @@ socket.on('message', (message) => {
                     <div class="othermessage">${data.message}</div>`;
             }
         }
+        zoom = mediumZoom('[data-zoomable]', {
+            margin: 24,
+            background: 'rgba(25, 18, 25, 0.9)',
+        })
         output[0].scrollTop = output[0].scrollHeight;
     }
 });

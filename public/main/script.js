@@ -456,9 +456,9 @@ sendfile.addEventListener("click", function () {
 
     fileInput.onchange = function () {
         let file = this.files[0];
-        console.log(file.name)
+        // console.log(file.name)
         // console.log(file.size)
-        console.log(file.type)
+        // console.log(file.type)
         // console.log(file.lastModified)
 
         //选择好图片后进入预览，选择是否发送
@@ -486,7 +486,7 @@ sendfile.addEventListener("click", function () {
             formData.append('_token', '99ad00c891d3e9e9bc9a613314ef9890')
             formData.append('puid', '198665227')
 
-            console.log(formData.get("file"))
+            // console.log(formData.get("file"))
 
             let xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function () {
@@ -576,7 +576,7 @@ sendimg.addEventListener("click", function () {
             xhr.onreadystatechange = function () {
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                     let resData = JSON.parse(this.response)
-                    console.log(6, imgheight, imgwidth)
+                    // console.log(6, imgheight, imgwidth)
                     let imgmessage = "$img$src=" + resData.data.previewUrl + "$width=" + imgwidth + "$height=" + imgheight
                     let toSend = { userid: token.id, nickname: token.nickname, message: imgmessage, time: date, room: token.room }
                     if (toSend.message) {

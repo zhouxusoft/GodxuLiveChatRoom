@@ -5,6 +5,9 @@ let token = JSON.parse(localStorage.getItem("token"))
 //设置时间
 let date = new Date()
 
+// 用于存储文件下载链接
+let filesrc = []
+
 //0.5s后再进行判断 为了防止页面刷新过快而出现token为空的误判
 if (!token) {
     window.location = '../login/'
@@ -140,6 +143,7 @@ socket.on('message', (message) => {
                 background: 'rgba(25, 18, 25, 0.9)',
             })
         } else if (data.message.startsWith("$file$name=")) {
+            filesrc.push(data.message.split("$src=")[1])
             data.message = data.message.match(/\$file\$name=([\s\S]*?)\$src=/)[1]
             if (data.userid == token.id) {
                 output[0].innerHTML +=
@@ -157,7 +161,16 @@ socket.on('message', (message) => {
                     </div>
                     <div class="othermessage filemessage" title="点击下载">${data.message}</div>`;
             }
-            let filesrc = data.message
+            console.log(filesrc)
+            let filemessage = document.getElementsByClassName("filemessage")
+            for (let i = 0; i < filemessage.length; i++) {
+                filemessage[i].addEventListener("click", () => {
+                    let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/' + filesrc[i];
+                    if(downloadUrl) {
+                        window.location.href = downloadUrl;
+                    }
+                })
+            }
         } else {
             if (data.userid == token.id) {
                 output[0].innerHTML +=
@@ -448,10 +461,6 @@ sendfile.addEventListener("click", function () {
             };
             xhr.open('POST', 'http://pan-yz.chaoxing.com/upload/uploadfile?fldid=851576482269757440', true)
             xhr.send(formData)
-            // let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/505df2d6a0f4e87b8f749db141156542';
-            // if(downloadUrl) {
-            //     window.location.href = downloadUrl;
-            // }
         });
         nobtn.addEventListener("click", function () {
             hidePop()

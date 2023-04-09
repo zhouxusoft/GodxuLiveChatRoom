@@ -151,7 +151,7 @@ socket.on('message', (message) => {
                         <div class="sendtime">${data.time}</div>
                         <div class="senduser">${data.nickname}</div>
                     </div>
-                    <div class="selfmessage filemessage" title="点击下载">${data.message}</div>
+                    <div class="selfmessage filemessage download" title="点击下载">${data.message}</div>
                     <div class="clear"></div>`;
             } else {
                 output[0].innerHTML +=
@@ -159,16 +159,18 @@ socket.on('message', (message) => {
                         <div class="senduser">${data.nickname}</div>
                         <div class="sendtime">${data.time}</div>
                     </div>
-                    <div class="othermessage filemessage" title="点击下载">${data.message}</div>`;
+                    <div class="othermessage filemessage download" title="点击下载">${data.message}</div>`;
             }
             console.log(filesrc)
             let filemessage = document.getElementsByClassName("filemessage")
             for (let i = 0; i < filemessage.length; i++) {
                 filemessage[i].addEventListener("click", () => {
                     let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/' + filesrc[i];
-                    if(downloadUrl) {
-                        window.location.href = downloadUrl;
+                    var iframe_box = document.querySelector('#iframe_box')
+                    while (iframe_box.firstChild) {
+                        iframe_box.removeChild(iframe_box.firstChild);
                     }
+                    iframe_box.innerHTML = iframe_box.innerHTML + '<iframe src="' + downloadUrl + '"><iframe>'
                 })
             }
         } else {

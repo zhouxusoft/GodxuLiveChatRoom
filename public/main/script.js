@@ -519,7 +519,7 @@ sendimg.addEventListener("click", function () {
 
     fileInput.type = 'file';
     fileInput.name = 'img';
-    fileInput.accept = 'image/bmp,image/heic,image/heif,image/jpeg,image/png,image/tiff,image/webp,image/x-icon'
+    fileInput.accept = 'image/bmp,image/heic,image/heif,image/jpeg,image/png,image/webp,image/x-icon'
 
     fileInput.onchange = function () {
         let file = this.files[0];

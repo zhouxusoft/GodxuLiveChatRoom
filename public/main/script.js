@@ -139,6 +139,25 @@ socket.on('message', (message) => {
                 margin: 24,
                 background: 'rgba(25, 18, 25, 0.9)',
             })
+        } else if (data.message.startsWith("$file$name=")) {
+            data.message = data.message.match(/\$file\$name=([\s\S]*?)\$src=/)[1]
+            if (data.userid == token.id) {
+                output[0].innerHTML +=
+                    `<div class="usertimebox">
+                        <div class="sendtime">${data.time}</div>
+                        <div class="senduser">${data.nickname}</div>
+                    </div>
+                    <div class="selfmessage filemessage" title="点击下载">${data.message}</div>
+                    <div class="clear"></div>`;
+            } else {
+                output[0].innerHTML +=
+                    `<div class="usertimebox">
+                        <div class="senduser">${data.nickname}</div>
+                        <div class="sendtime">${data.time}</div>
+                    </div>
+                    <div class="othermessage filemessage" title="点击下载">${data.message}</div>`;
+            }
+            let filesrc = data.message
         } else {
             if (data.userid == token.id) {
                 output[0].innerHTML +=
@@ -427,12 +446,12 @@ sendfile.addEventListener("click", function () {
                     }
                 }
             };
-            xhr.open('POST', 'http ://pan-yz.chaoxing.com/upload/uploadfile?fldid=851576482269757440', true)
+            xhr.open('POST', 'http://pan-yz.chaoxing.com/upload/uploadfile?fldid=851576482269757440', true)
             xhr.send(formData)
-            let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/505df2d6a0f4e87b8f749db141156542';
-            if(downloadUrl) {
-                window.location.href = downloadUrl;
-            }
+            // let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/505df2d6a0f4e87b8f749db141156542';
+            // if(downloadUrl) {
+            //     window.location.href = downloadUrl;
+            // }
         });
         nobtn.addEventListener("click", function () {
             hidePop()
@@ -490,7 +509,7 @@ sendimg.addEventListener("click", function () {
             formData.append('_token', '99ad00c891d3e9e9bc9a613314ef9890')
             formData.append('puid', '198665227')
 
-            console.log(formData.get("file"))
+            // console.log(formData.get("file"))
 
             let xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function () {

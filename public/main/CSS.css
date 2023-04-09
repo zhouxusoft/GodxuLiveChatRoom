@@ -545,12 +545,15 @@ hr {
 }
 
 .filebox {
+    margin: auto;
     text-align: center;
-    width: 200px;
+    width: fit-content;
+    max-width: 200px;
     border: 2px solid skyblue;
     border-radius: 6px;
     padding: 8px;
     margin-bottom: 15px;
+    padding-right: 12px;
 }
 
 .filename {
@@ -570,4 +573,17 @@ hr {
     color: rgba(255, 0, 0, 0.4);
     width: 35px;
     display: inline-block;
+}
+
+.filemessage {
+    user-select: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.filemessage::before {
+    content: "\f15b";
+    font-family: fontAwesome;
+    margin-right: 5px;
+    font-size: 20px;
 }

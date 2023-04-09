@@ -176,38 +176,7 @@ socket.on('message', (message) => {
                     </div>
                     <div class="othermessage filemessage download" title="点击下载">${data.message}</div>`;
             }
-            // console.log(filesrc)
-            let filemessage = document.getElementsByClassName("filemessage")
-            for (let i = 0; i < filemessage.length; i++) {
-                filemessage[i].addEventListener("click", () => {
-                    showPop()
-                    pop.innerHTML += `
-                        <div class="makesuresendimage">是否确认下载</div>
-                        <div class="filebox">
-                            <div class="filelogo">\uf15b</div>
-                            <div class="filename">${filenamelist[i]}</div>
-                        </div>
-                        <div class="makesure">
-                            <div class="makesurebtn" id="yesbtn">确认</div>
-                            <div class="makesurebtn" id="nobtn">取消</div>
-                        </div>`;
-                    let yesbtn = document.getElementById("yesbtn");
-                    let nobtn = document.getElementById("nobtn");
-                    //点击确认发送
-                    yesbtn.addEventListener("click", function () {
-                        hidePop()
-                        let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/' + filesrc[i];
-                        var iframe_box = document.querySelector('#iframe_box')
-                        while (iframe_box.firstChild) {
-                            iframe_box.removeChild(iframe_box.firstChild);
-                        }
-                        iframe_box.innerHTML = iframe_box.innerHTML + '<iframe src="' + downloadUrl + '"><iframe>'
-                    });
-                    nobtn.addEventListener("click", function () {
-                        hidePop()
-                    });
-                })
-            }
+            // console.log(filesrc) 
         } else {
             if (data.userid == token.id) {
                 output[0].innerHTML +=
@@ -225,6 +194,37 @@ socket.on('message', (message) => {
                     </div>
                     <div class="othermessage">${data.message}</div>`;
             }
+        }
+        let filemessage = document.getElementsByClassName("filemessage")
+        for (let i = 0; i < filemessage.length; i++) {
+            filemessage[i].addEventListener("click", () => {
+                showPop()
+                pop.innerHTML += `
+                    <div class="makesuresendimage">是否确认下载</div>
+                    <div class="filebox">
+                        <div class="filelogo">\uf15b</div>
+                        <div class="filename">${filenamelist[i]}</div>
+                    </div>
+                    <div class="makesure">
+                        <div class="makesurebtn" id="yesbtn">确认</div>
+                        <div class="makesurebtn" id="nobtn">取消</div>
+                    </div>`;
+                let yesbtn = document.getElementById("yesbtn");
+                let nobtn = document.getElementById("nobtn");
+                //点击确认发送
+                yesbtn.addEventListener("click", function () {
+                    hidePop()
+                    let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/' + filesrc[i];
+                    var iframe_box = document.querySelector('#iframe_box')
+                    while (iframe_box.firstChild) {
+                        iframe_box.removeChild(iframe_box.firstChild);
+                    }
+                    iframe_box.innerHTML = iframe_box.innerHTML + '<iframe src="' + downloadUrl + '"><iframe>'
+                });
+                nobtn.addEventListener("click", function () {
+                    hidePop()
+                });
+            })
         }
         zoom = mediumZoom('[data-zoomable]', {
             margin: 24,

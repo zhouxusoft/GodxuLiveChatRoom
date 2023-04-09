@@ -9,6 +9,10 @@ let date = new Date()
 let filesrc = []
 let filenamelist = []
 
+//用于存储图片的高度
+let imgshowheight = []
+            
+
 //0.5s后再进行判断 为了防止页面刷新过快而出现token为空的误判
 if (!token) {
     window.location = '../login/'
@@ -118,7 +122,14 @@ socket.on('message', (message) => {
     if (data.room == token.room) {
         //判断消息是否为图片
         if (data.message.startsWith("$img$src=")) {
-            data.message = data.message.slice(9)
+            let imgwidth = parseInt(data.message.match(/\$width=([\s\S]*?)\$height=/)[1])
+            let imgheight = parseInt(data.message.split("$height=")[1])
+            if (imgwidth <= 240) {
+                imgshowheight.push(imgheight)
+            } else {
+                imgshowheight.push(parseInt(240 * imgheight / imgwidth))
+            }
+            data.message = data.message.match(/\$img\$src=([\s\S]*?)\$width=/)[1]
             if (data.userid == token.id) {
                 output[0].innerHTML +=
                     `<div class="usertimebox">
@@ -138,6 +149,11 @@ socket.on('message', (message) => {
                     <div class="othermessageimg">
                         <img class="myimg" data-zoomable data-zoom-src="${data.message}" src="${data.message}" referrerPolicy="no-referrer">
                     </div>`;
+            }
+            let myimg = document.getElementsByClassName("myimg")
+            for (let i = 0; i < myimg.length; i++) {
+                // console.log(imgshowheight[i])
+                myimg[i].height = imgshowheight[i]
             }
             zoom = mediumZoom('[data-zoomable]', {
                 margin: 24,
@@ -163,7 +179,7 @@ socket.on('message', (message) => {
                     </div>
                     <div class="othermessage filemessage download" title="点击下载">${data.message}</div>`;
             }
-            console.log(filesrc)
+            // console.log(filesrc)
             let filemessage = document.getElementsByClassName("filemessage")
             for (let i = 0; i < filemessage.length; i++) {
                 filemessage[i].addEventListener("click", () => {
@@ -498,6 +514,9 @@ sendfile.addEventListener("click", function () {
 sendimg.addEventListener("click", function () {
     var fileInput = document.createElement('input');
 
+    let imgwidth = 0
+    let imgheight = 0
+
     fileInput.type = 'file';
     fileInput.name = 'img';
     fileInput.accept = 'image/bmp,image/heic,image/heif,image/jpeg,image/png,image/tiff,image/webp,image/x-icon'
@@ -528,6 +547,15 @@ sendimg.addEventListener("click", function () {
             // 获取img元素并设置src属性
             const imgElement = document.getElementById("myimg");
             imgElement.src = imageDataUrl;
+
+            //新建一个img对象，用于获取图片的宽高
+            let img = new Image();
+            img.src = reader.result;
+            img.onload = function() {
+                imgwidth = img.width
+                imgheight = img.height
+                // console.log(imgheight, imgwidth)
+            };
         });
         reader.readAsDataURL(file);
         let yesbtn = document.getElementById("yesbtn");
@@ -548,7 +576,8 @@ sendimg.addEventListener("click", function () {
             xhr.onreadystatechange = function () {
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                     let resData = JSON.parse(this.response)
-                    let imgmessage = "$img$src=" + resData.data.previewUrl
+                    console.log(6, imgheight, imgwidth)
+                    let imgmessage = "$img$src=" + resData.data.previewUrl + "$width=" + imgwidth + "$height=" + imgheight
                     let toSend = { userid: token.id, nickname: token.nickname, message: imgmessage, time: date, room: token.room }
                     if (toSend.message) {
                         socket.emit('message', JSON.stringify(toSend))

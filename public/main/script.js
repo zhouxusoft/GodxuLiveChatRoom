@@ -5,8 +5,9 @@ let token = JSON.parse(localStorage.getItem("token"))
 //设置时间
 let date = new Date()
 
-// 用于存储文件下载链接
+// 用于存储文件下载链接和文件名
 let filesrc = []
+let filenamelist = []
 
 //0.5s后再进行判断 为了防止页面刷新过快而出现token为空的误判
 if (!token) {
@@ -145,6 +146,7 @@ socket.on('message', (message) => {
         } else if (data.message.startsWith("$file$name=")) {
             filesrc.push(data.message.split("$src=")[1])
             data.message = data.message.match(/\$file\$name=([\s\S]*?)\$src=/)[1]
+            filenamelist.push(data.message)
             if (data.userid == token.id) {
                 output[0].innerHTML +=
                     `<div class="usertimebox">
@@ -165,12 +167,32 @@ socket.on('message', (message) => {
             let filemessage = document.getElementsByClassName("filemessage")
             for (let i = 0; i < filemessage.length; i++) {
                 filemessage[i].addEventListener("click", () => {
-                    let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/' + filesrc[i];
-                    var iframe_box = document.querySelector('#iframe_box')
-                    while (iframe_box.firstChild) {
-                        iframe_box.removeChild(iframe_box.firstChild);
-                    }
-                    iframe_box.innerHTML = iframe_box.innerHTML + '<iframe src="' + downloadUrl + '"><iframe>'
+                    showPop()
+                    pop.innerHTML += `
+                        <div class="makesuresendimage">是否确认下载</div>
+                        <div class="filebox">
+                            <div class="filelogo">\uf15b</div>
+                            <div class="filename">${filenamelist[i]}</div>
+                        </div>
+                        <div class="makesure">
+                            <div class="makesurebtn" id="yesbtn">确认</div>
+                            <div class="makesurebtn" id="nobtn">取消</div>
+                        </div>`;
+                    let yesbtn = document.getElementById("yesbtn");
+                    let nobtn = document.getElementById("nobtn");
+                    //点击确认发送
+                    yesbtn.addEventListener("click", function () {
+                        hidePop()
+                        let downloadUrl = 'http://sharewh1.xuexi365.com/share/download/' + filesrc[i];
+                        var iframe_box = document.querySelector('#iframe_box')
+                        while (iframe_box.firstChild) {
+                            iframe_box.removeChild(iframe_box.firstChild);
+                        }
+                        iframe_box.innerHTML = iframe_box.innerHTML + '<iframe src="' + downloadUrl + '"><iframe>'
+                    });
+                    nobtn.addEventListener("click", function () {
+                        hidePop()
+                    });
                 })
             }
         } else {

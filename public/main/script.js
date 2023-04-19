@@ -12,8 +12,6 @@ let filenamelist = []
 //用于存储图片的高度
 let imgshowheight = []
             
-
-//0.5s后再进行判断 为了防止页面刷新过快而出现token为空的误判
 if (!token) {
     window.location = '../login/'
 }
